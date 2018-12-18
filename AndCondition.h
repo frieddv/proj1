@@ -6,9 +6,9 @@
 #define PROJ1_ANDCONDITION_H
 
 
-#include "SegregationCondition.h"
+#include "AggregationCondition.h"
 
-class AndCondition : public SegregationCondition {
+class AndCondition : public AggregationCondition {
 
     bool evaluate() {
         return lhs->evaluate() && rhs->evaluate();

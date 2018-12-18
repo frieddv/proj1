@@ -8,7 +8,7 @@
 
 #include "IExpression.h"
 
-class UnaryExp : IExpression{
+class UnaryExp : public IExpression {
 public:
     virtual double calculate() = 0;
 };

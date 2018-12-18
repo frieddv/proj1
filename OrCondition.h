@@ -6,9 +6,9 @@
 #define PROJ1_ORCONDITION_H
 
 
-#include "SegregationCondition.h"
+#include "AggregationCondition.h"
 
-class OrCondition : public SegregationCondition {
+class OrCondition : public AggregationCondition {
 
     bool evaluate() {
         return lhs->evaluate() || rhs->evaluate();

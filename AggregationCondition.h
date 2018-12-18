@@ -8,7 +8,7 @@
 
 #include "ICondition.h"
 
-class SegregationCondition : public ICondition {
+class AggregationCondition : public ICondition {
 protected:
 
     ICondition *lhs;
@@ -17,7 +17,7 @@ protected:
 
 public:
 
-    SegregationCondition(ICondition *left, ICondition *right) : lhs(left), rhs(right) {};
+    AggregationCondition(ICondition *left, ICondition *right) : lhs(left), rhs(right) {};
 
     virtual bool evaluate() = 0;
 };

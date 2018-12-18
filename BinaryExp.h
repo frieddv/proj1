@@ -8,7 +8,7 @@
 
 #include "IExpression.h"
 
-class BinaryExp : IExpression {
+class BinaryExp : public IExpression {
 protected:
 
     IExpression *left;

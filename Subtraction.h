@@ -8,7 +8,7 @@
 
 #include "BinaryExp.h"
 
-class Subtraction : BinaryExp {
+class Subtraction : public BinaryExp {
 
     double calculate() {
         return left->calculate() - right->calculate();

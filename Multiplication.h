@@ -8,7 +8,7 @@
 
 #include "BinaryExp.h"
 
-class Multiplication : BinaryExp {
+class Multiplication : public BinaryExp {
 
     double calculate() {
         return left->calculate() * right->calculate();

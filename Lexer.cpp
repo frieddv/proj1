@@ -11,8 +11,11 @@ vector<string> Lexer::lex(istream buffer) {
         buffer.getline(line, MAX_LINE_LENGTH);
         string temp = line;
         while (!(temp.empty())) {
-            if ()
+            if (regex_search(temp, word, regex_constants::match_continuous)) {
+
+            }
         }
+        tokens.emplace_back("\n");
     }
 
     return tokens;

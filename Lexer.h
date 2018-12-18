@@ -7,12 +7,12 @@
 
 #include <regex>
 
-#define WORDPAT "[a-zA-Z][a-zA-Z0-9]*"
-#define NUMBERPAT "-?(([1-9][0-9]*)|0)(\.[0-9]+)?"
-#define IPPAT "(([1-9]?[0-9]|1[0-9][0-9]|2[0-4][0-9]|[25[0-5])\.){3}([1-9]?[0-9]|1[0-9][0-9]|2[0-4][0-9]|[25[0-5])"
-#define SERVERPATH "\"[^\"]+\""
-#define DUALOPERATOR "(!=)|(==)|(<=)|(>=)"
-#define SINGLEOPERATOR "[=\-*/()=={}<>]"
+#define WORD_PAT "[a-zA-Z][a-zA-Z0-9]*"
+#define NUMBER_PAT "-?(([1-9][0-9]*)|0)(\.[0-9]+)?"
+#define IP_PAT "(([1-9]?[0-9]|1[0-9][0-9]|2[0-4][0-9]|[25[0-5])\.){3}([1-9]?[0-9]|1[0-9][0-9]|2[0-4][0-9]|[25[0-5])"
+#define SERVER_PATH "\"[^\"]+\""
+#define DUAL_OPERATOR "(!=)|(==)|(<=)|(>=)"
+#define SINGLE_OPERATOR "[=\-*/()=={}<>]"
 #define MAX_LINE_LENGTH 1024
 
 using namespace std;
@@ -29,9 +29,9 @@ private:
     regex singleOp;
 
 public:
-    Lexer() : word(WORDPAT), IP(IPPAT), number(NUMBERPAT),
-            serverPath(SERVERPATH), dualOp(DUALOPERATOR),
-            singleOp(SINGLEOPERATOR) {};
+    Lexer() : word(WORD_PAT), IP(IP_PAT), number(NUMBER_PAT),
+            serverPath(SERVER_PATH), dualOp(DUAL_OPERATOR),
+            singleOp(SINGLE_OPERATOR) {};
 
     vector<string> lex (istream buffer);
 };

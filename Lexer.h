@@ -15,6 +15,7 @@
 #define SINGLE_OPERATOR "[=\-*/()=={}<>]"
 #define WHITESPACE "\s"
 #define MAX_LINE_LENGTH 1024
+#define NEWLINE "\n"
 
 using namespace std;
 
@@ -30,9 +31,15 @@ private:
     regex singleOp;
     regex whitespace;
 
-    string trimToken(string line, unsigned long tokenLength,
+    void trimToken(string &line, unsigned long tokenLength,
                         vector<string>& tokens);
-    string trimLeadingWhitespace(string line);
+    void trimLeadingWhitespace(string &line);
+
+    bool lineStartsWith(const string &line, smatch &match,
+                        const regex &tokenTemplate) const;
+
+    void tryTrimLeadingToken(string &temp, vector<string> &tokens,
+                                const regex &tokenType);
 
 public:
     Lexer() : word(WORD_PAT), IP(IP_PAT), number(NUMBER_PAT),

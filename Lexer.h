@@ -13,6 +13,7 @@
 #define SERVER_PATH "\"[^\"]+\""
 #define DUAL_OPERATOR "(!=)|(==)|(<=)|(>=)"
 #define SINGLE_OPERATOR "[=\-*/()=={}<>]"
+#define WHITESPACE "\s"
 #define MAX_LINE_LENGTH 1024
 
 using namespace std;
@@ -27,13 +28,18 @@ private:
     regex serverPath;
     regex dualOp;
     regex singleOp;
+    regex whitespace;
+
+    string trimToken(string line, unsigned long tokenLength,
+                        vector<string>& tokens);
+    string trimLeadingWhitespace(string line);
 
 public:
     Lexer() : word(WORD_PAT), IP(IP_PAT), number(NUMBER_PAT),
             serverPath(SERVER_PATH), dualOp(DUAL_OPERATOR),
-            singleOp(SINGLE_OPERATOR) {};
+            singleOp(SINGLE_OPERATOR), whitespace(WHITESPACE) {};
 
-    vector<string> lex (istream buffer);
+    vector<string> lex(istream buffer);
 };
 
 

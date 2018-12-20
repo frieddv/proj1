@@ -3,4 +3,4 @@ project(proj1)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(proj1 main.cpp IExpression.h BinaryExp.h UnaryExp.h Number.h ICondition.h ComparisonCondition.h AggregationCondition.h Lexer.cpp Lexer.h ICommand.h)
+add_executable(proj1 main.cpp IExpression.h BinaryExp.h UnaryExp.h ICondition.h ComparisonCondition.h AggregationCondition.h Lexer.cpp Lexer.h ICommand.h Var.cpp Var.h blabla.cpp DefineVarCmd.cpp)

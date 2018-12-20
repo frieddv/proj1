@@ -8,12 +8,12 @@
 #include <regex>
 
 #define WORD_PAT "[a-zA-Z][a-zA-Z0-9]*"
-#define NUMBER_PAT "-?(([1-9][0-9]*)|0)(\.[0-9]+)?"
+#define NUMBER_PAT "(([1-9][0-9]*)|0)(\.[0-9]+)?"
 #define IP_PAT "(([1-9]?[0-9]|1[0-9][0-9]|2[0-4][0-9]|[25[0-5])\.){3}([1-9]?[0-9]|1[0-9][0-9]|2[0-4][0-9]|[25[0-5])"
 #define SERVER_PATH "\"[^\"]+\""
 #define DUAL_OPERATOR "(!=)|(==)|(<=)|(>=)"
 #define SINGLE_OPERATOR "[=\-*/()=={}<>]"
-#define WHITESPACE "\s"
+#define WHITESPACE "[\s,]+"
 #define MAX_LINE_LENGTH 1024
 #define NEWLINE "\n"
 

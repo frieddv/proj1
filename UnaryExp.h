@@ -19,7 +19,7 @@ class Negation : public UnaryExp {
 private:
     IExpression *innerExp;
 public:
-    Negation(IExpression *innerExp) : innerExp(innerExp) {};
+    Negation(IExpression *innerExp) : innerExp(innerExp) {}
     double calculate() { return (-1 * innerExp->calculate());}
  };
 
@@ -27,8 +27,8 @@ class Number : public UnaryExp {
 private:
     double value;
 public:
-    Number(double value) : value(value) {};
-    double calculate() { return value;};
+    Number(double value) : value(value) {}
+    double calculate() { return value;}
 };
 
 class Var : public UnaryExp{

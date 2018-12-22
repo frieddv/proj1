@@ -44,7 +44,7 @@ private:
 public:
     Lexer() : word(WORD_PAT), IP(IP_PAT), number(NUMBER_PAT),
             stringParam(STRING), dualOp(DUAL_OPERATOR),
-            singleOp(SINGLE_OPERATOR), delimiters(DELIMITERS) {};
+            singleOp(SINGLE_OPERATOR), delimiters(DELIMITERS) {}
 
     vector<string> lex(istream buffer);
 };

@@ -15,7 +15,7 @@ protected:
     IExpression *right;
 
 public:
-    ComparisonCondition(IExpression *left, IExpression *right) : left(left), right(right) {};
+    ComparisonCondition(IExpression *left, IExpression *right) : left(left), right(right) {}
     virtual bool evaluate() = 0;
 };
 

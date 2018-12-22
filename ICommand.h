@@ -14,6 +14,7 @@
 #include <map>
 #include "ICondition.h"
 #include "IExpression.h"
+#include "VariableManager.h"
 
 using namespace std;
 
@@ -22,12 +23,12 @@ public:
     virtual void doCommand() = 0;
 };
 
-class ContainerCommands : public ICommand {
+class ContainerCommand : public ICommand {
 protected:
     ICondition *condition;
 
 public:
-    ContainerCommands(std::vector<std::string> info);
+    ContainerCommand(std::vector<std::string> info);
 };
 class PrintExpCmd : public ICommand {
 private:
@@ -48,28 +49,24 @@ class SleepCmd : public ICommand {
 private:
     IExpression *exp;
 public:
-    SleepCmd(IExpression *exp) : exp(exp) {};
+    SleepCmd(IExpression *exp) : exp(exp) {}
     void doCommand() {this_thread::sleep_for(chrono::milliseconds((int)exp->calculate()));}
 };
 
 class DefineVarCmd : public ICommand {
 private:
-    map<string, double> *localVars;
-    map<string, string> *boundToServer;
-    map<string, string> *boundToLocals;
+    VariableManager *manager;
     string varName;
     string bindTarget;
     IExpression *exp;
 public:
-    DefineVarCmd(map<string, double> *localVars, map<string, string> *boundToServer, map<string, string> *boundToLocals,
-                 const string &varName, const string &bindTarget) : localVars(localVars), boundToServer(boundToServer),
-                                                                    boundToLocals(boundToLocals), varName(varName),
-                                                                    bindTarget(bindTarget), exp(nullptr) {};
+    DefineVarCmd(VariableManager *manager, const string &varName,
+                const string &bindTarget) : manager(manager), varName(varName),
+                bindTarget(bindTarget), exp(nullptr) {}
 
-    DefineVarCmd(map<string, double> *localVars, map<string, string> *boundToServer, map<string, string> *boundToLocals,
-                 const string &varName, IExpression *exp) : localVars(localVars), boundToServer(boundToServer),
-                                                            boundToLocals(boundToLocals), varName(varName),
-                                                            bindTarget(""), exp(exp) {};
+    DefineVarCmd(VariableManager *manager, const string &varName,
+                IExpression *exp) : manager(manager), varName(varName),
+                exp(exp) {}
     void doCommand();
 };
 #endif //PROJ1_ICOMMAND_H

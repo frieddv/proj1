@@ -17,7 +17,7 @@ public:
 
     virtual double calculate() = 0;
 
-    BinaryExp(IExpression *a, IExpression *b) : left(a), right(b) {};
+    BinaryExp(IExpression *a, IExpression *b) : left(a), right(b) {}
 };
 class Addition : public BinaryExp {
     double calculate() { return left->calculate() + right->calculate();}

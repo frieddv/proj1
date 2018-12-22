@@ -5,22 +5,20 @@
 #ifndef PROJ1_VAR_H
 #define PROJ1_VAR_H
 
-#include <string>
-#include <map>
 #include "UnaryExp.h"
+#include "VariableManager.h"
+
 using namespace std;
 
 class Var : public UnaryExp{
 private:
     string var;
-    map<string, string> *boundVars;
-    map<string, double> *localVars;
-    map<string, string> *boundToLocal;
+    VariableManager *manager;
 public:
-    Var(string varName, map<string, string> *boundVars, map<string, double> *localVars,
-            map<string, string> *boundToLocal);
+    Var(string varName, VariableManager *manager) : var(varName),
+                                                    manager(manager){}
 
-    double calculate();
+    double calculate() { return manager->getVarValue(var); }
 };
 
 

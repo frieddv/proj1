@@ -6,8 +6,8 @@
 #include "VariableManager.h"
 
 void VariableManager::bindToLocal(string varName, string target) {
-    if (boundVars.count(target)) {
-        boundVars[varName] = boundVars[target];
+    if (boundToServer.count(target)) {
+        boundToServer[varName] = boundToServer[target];
         return;
     }
     boundToLocal.insert(make_pair(varName, target));
@@ -23,60 +23,50 @@ void VariableManager::bindVar(string varName, string target) {
 }
 
 double VariableManager::getVarValue(string varName) {
-    if (localVars.count(varName))
-        return localVars[varName];
-    if (boundVars.count(varName))
-        return getValueFromServer(boundVars[varName]); //separate object?
-    return searchInLocalBindingMap(varName, vector<string>());
+    string source = getVarSource(varName, vector<string>());
+    if (localVars.count(source))
+        return localVars[source];
+    return getValueFromServer(boundToServer[varName]); //separate class?
 }
 
 void VariableManager::setVarValue(string varName, double value) {
-    if (trySetVar(varName, value))
-        return;
-    vector<string> alreadySearched = vector<string>();
-    setValueToLocalBinding(varName, alreadySearched, value);
-}
-
-void VariableManager::setValueToLocalBinding(string varName,
-                                             vector<string> &alreadySearched,
-                                             double value) {
-    alreadySearched.push_back(varName);
-    if (localVars.count(varName)) {
-        localVars[varName] = value;
+    string source = getVarSource(varName, vector<string>());
+    if (localVars.count(source)) {
+        localVars[source] = value;
         return;
     }
-    if (boundVars)
-}
-
-double VariableManager::searchInLocalBinding(string varName,
-                                             vector<string> alreadySearched) {
-    return 0;
-}
-
-bool VariableManager::trySetVar(string varName, double value) {
-    if (localVars.count(varName)) {
-        localVars[varName] = value;
-        return true;
-    }
-    if (boundVars.count(varName)) {
-        setValueOnServer(boundVars[varName], value); //same separate object?
-        return true;
-    }
-    return false;
+    setValueOnServer(boundToServer[varName], value); //same separate class?
 }
 
 string VariableManager::getVarSource(string varName,
                                     vector<string> alreadyChecked) {
-    if ((localVars.count(varName)) || (boundVars.count(varName)))
+    if ((localVars.count(varName)) || (boundToServer.count(varName)))
         return varName;
     if (wasAlreadySearched(varName, alreadyChecked))
         throw logic_error("stop this local binding check loop");
     alreadyChecked.push_back(varName);
-
+    vector<string> bindings = getLocalBindings(varName);
+    for (string binding : bindings) {
+        try {
+            return getVarSource(binding, alreadyChecked);
+        }
+        catch (logic_error) {
+            continue; //if one binding was a dead end, check the others
+        }
+    }
+    throw logic_error("local binding not found");
 }
 
 bool VariableManager::wasAlreadySearched(string varName,
                                          vector<string> alreadySearched) {
     auto index = find(alreadySearched.begin(), alreadySearched.end(), varName);
     return index != alreadySearched.end();
+}
+
+vector<string> VariableManager::getLocalBindings(string varName) {
+    vector<string> bindings;
+    auto iterators = boundToLocal.equal_range(varName);
+    for (auto it = iterators.first; it != iterators.second; ++it)
+        bindings.push_back(it->second);
+    return bindings;
 }

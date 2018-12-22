@@ -14,23 +14,18 @@ using namespace std;
 class VariableManager {
 private:
     map<string, double> localVars;
-    map<string, string> boundVars;
+    map<string, string> boundToServer;
     multimap<string, string> boundToLocal;
 
-    void bindToServer(string varName, string path) {boundVars[varName] = path;}
+    void bindToServer(string varName, string path) {boundToServer[varName] = path;}
 
     void bindToLocal(string varName, string target);
-
-    double searchInLocalBinding(string varName, vector<string> alreadySearched);
-
-    void setValueToLocalBinding(string varName, vector<string> &alreadySearched,
-                                double value);
-
-    bool trySetVar(string varName, double value);
 
     string getVarSource(string varName, vector<string> alreadySearched);
 
     bool wasAlreadySearched(string varName, vector<string> alreadySearched);
+
+    vector<string> getLocalBindings(string varName);
 
 public:
     void addLocalVar(string varName, double value) {localVars[varName] = value;}

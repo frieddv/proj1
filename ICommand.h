@@ -26,7 +26,6 @@ public:
 class ContainerCommand : public ICommand {
 protected:
     ICondition *condition;
-
 public:
     ContainerCommand(std::vector<std::string> info);
 };

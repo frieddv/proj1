@@ -7,7 +7,6 @@
 #include <stack>
 #include "IExpression.h"
 #include "UnaryExp.h"
-#include "Var.h"
 
 using namespace std;
 
@@ -26,7 +25,7 @@ void ShuntingYard(vector<string> tokens) {
             flag = 1;
         }
         else if (isNumber(*it)) {
-            IExpression *exp = new Number(stoi(*it);
+            IExpression *exp = new Number(stoi(*it));
             values.push(*exp);
         }
         else if (isVarName(*it)) {

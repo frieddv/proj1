@@ -5,30 +5,22 @@
 #ifndef PROJ1_VARIABLEMANAGER_H
 #define PROJ1_VARIABLEMANAGER_H
 
-#include <string>
 #include <map>
-#include <vector>
 
 using namespace std;
 
 class VariableManager {
 private:
     map<string, double> localVars;
-    map<string, string> boundToServer;
-    multimap<string, string> boundToLocal;
+    map<string, string> boundVars;
+    map<string, string> varToSource;
 
-    void bindToServer(string varName, string path) {boundToServer[varName] = path;}
+    void bindToServer(string varName, string path) {boundVars[varName] = path;}
 
     void bindToLocal(string varName, string target);
 
-    string getVarSource(string varName, vector<string> alreadySearched);
-
-    bool wasAlreadySearched(string varName, vector<string> alreadySearched);
-
-    vector<string> getLocalBindings(string varName);
-
 public:
-    void addLocalVar(string varName, double value) {localVars[varName] = value;}
+    void addLocalVar(string varName, double value);
 
     void bindVar(string varName, string target);
 

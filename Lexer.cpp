@@ -4,7 +4,7 @@
 
 #include "Lexer.h"
 
-vector<string> Lexer::lex(istream buffer) {
+vector<string> Lexer::lex(istream &buffer) {
     char line[MAX_LINE_LENGTH] = {0};
     vector<string> tokens;
     regex templates[] = {word, IP, number, stringParam, dualOp, singleOp};

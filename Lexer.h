@@ -46,7 +46,7 @@ public:
             stringParam(STRING), dualOp(DUAL_OPERATOR),
             singleOp(SINGLE_OPERATOR), delimiters(DELIMITERS) {}
 
-    vector<string> lex(istream buffer);
+    vector<string> lex(istream &buffer);
 };
 
 

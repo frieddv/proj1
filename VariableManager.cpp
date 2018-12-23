@@ -70,3 +70,8 @@ vector<string> VariableManager::getLocalBindings(string varName) {
         bindings.push_back(it->second);
     return bindings;
 }
+
+bool VariableManager::doesVarExist(string varName) {
+    return (boundToLocal.count(varName)) || (boundToServer.count(varName)) ||
+            (localVars.count(varName));
+}

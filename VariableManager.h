@@ -35,6 +35,8 @@ public:
     double getVarValue(string varName);
 
     void setVarValue(string varName, double value);
+
+    bool doesVarExist(string varName);
 };
 
 

@@ -6,6 +6,7 @@
 #define PROJ1_LEXER_H
 
 #include <regex>
+#include <queue>
 
 #define WORD_PAT "[a-zA-Z][a-zA-Z0-9]*"
 #define NUMBER_PAT "(([1-9][0-9]*)|0)(\.[0-9]+)?"
@@ -32,13 +33,13 @@ private:
     regex delimiters;
 
     void extractToken(string &line, unsigned long tokenLength,
-                        vector<string>& tokens);
+                        queue<string>& tokens);
     void trimLeadingGarbage(string &line);
 
     bool lineStartsWith(const string &line, smatch &match,
                         const regex &tokenTemplate) const;
 
-    void tryExtractLeadingToken(string &temp, vector<string> &tokens,
+    void tryExtractLeadingToken(string &temp, queue<string> &tokens,
                                 const regex &tokenType);
 
 public:
@@ -46,7 +47,7 @@ public:
             stringParam(STRING), dualOp(DUAL_OPERATOR),
             singleOp(SINGLE_OPERATOR), delimiters(DELIMITERS) {}
 
-    vector<string> lex(istream &buffer);
+    queue<string> lex(istream &buffer);
 };
 
 

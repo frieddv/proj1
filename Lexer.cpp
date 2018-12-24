@@ -4,9 +4,9 @@
 
 #include "Lexer.h"
 
-vector<string> Lexer::lex(istream &buffer) {
+queue<string> Lexer::lex(istream &buffer) {
     char line[MAX_LINE_LENGTH] = {0};
-    vector<string> tokens;
+    queue<string> tokens;
     regex templates[] = {word, IP, number, stringParam, dualOp, singleOp};
     while (!buffer.eof()) {
         buffer.getline(line, MAX_LINE_LENGTH);
@@ -17,13 +17,13 @@ vector<string> Lexer::lex(istream &buffer) {
                 tryExtractLeadingToken(temp, tokens, r);
             }
         }
-        tokens.push_back(NEWLINE);
+        tokens.push(NEWLINE);
     }
 
     return tokens;
 }
 
-void Lexer::tryExtractLeadingToken(string &temp, vector<string> &tokens,
+void Lexer::tryExtractLeadingToken(string &temp, queue<string> &tokens,
                                 const regex &tokenType) {
     smatch match;
     if (lineStartsWith(temp, match, tokenType)) {
@@ -37,8 +37,8 @@ bool Lexer::lineStartsWith(const string &line, smatch &match,
 }
 
 void Lexer::extractToken(string &line, unsigned long tokenLength,
-                        vector<string> &tokens) {
-    tokens.push_back(line.substr(0, tokenLength));
+                        queue<string> &tokens) {
+    tokens.push(line.substr(0, tokenLength));
     line = line.substr(tokenLength);
 }
 

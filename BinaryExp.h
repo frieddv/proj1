@@ -15,7 +15,7 @@ protected:
 
 public:
 
-    virtual double calculate() = 0;
+    virtual double Calculate() = 0;
     BinaryExp(IExpression *a, IExpression *b) : left(a), right(b) {}
     virtual ~BinaryExp() {
         delete left;
@@ -26,29 +26,29 @@ public:
 class Addition : public BinaryExp {
 public:
     Addition(IExpression *a, IExpression *b) : BinaryExp(a, b) {}
-    double calculate() { return left->calculate() + right->calculate();}
+    double Calculate() { return left->Calculate() + right->Calculate();}
 };
 
 class Subtraction : public BinaryExp {
 public:
     Subtraction(IExpression *a, IExpression *b) : BinaryExp(a, b) {}
-    double calculate() { return left->calculate() - right->calculate();}
+    double Calculate() { return left->Calculate() - right->Calculate();}
 };
 
 class Multiplication : public BinaryExp {
 public:
     Multiplication(IExpression *a, IExpression *b) : BinaryExp(a, b) {}
-    double calculate() { return left->calculate() * right->calculate();}
+    double Calculate() { return left->Calculate() * right->Calculate();}
 };
 
 class Division : public BinaryExp {
 public:
     Division(IExpression *a, IExpression *b) : BinaryExp(a, b) {}
-    double calculate() {
-        if (right->calculate() == 0) {
+    double Calculate() {
+        if (right->Calculate() == 0) {
             throw std::logic_error("Divide by zero exception");
         }
-        return left->calculate() / right->calculate();
+        return left->Calculate() / right->Calculate();
     }
 };
 #endif //PROJ1_BINARYEXP_H

@@ -10,9 +10,9 @@
 
 class ICondition : public IExpression{
 public:
-    virtual bool evaluate() = 0;
+    virtual bool Evaluate() = 0;
 
-    virtual double calculate() { return (int) evaluate();}
+    virtual double Calculate() { return (int) Evaluate();}
 };
 
 

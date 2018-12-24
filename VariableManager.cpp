@@ -22,14 +22,14 @@ void VariableManager::bindVar(string varName, string target) {
 
 double VariableManager::getVarValue(string varName) {
     if (boundVars.count(varName))
-        return getValueFromServer(boundVars[varName]); //separate class?
+        return getValueFromServer(boundVars[varName]);
     string local = varToSource[varName];
     return localVars[local];
 }
 
 void VariableManager::setVarValue(string varName, double value) {
     if (boundVars.count(varName)) {
-        setValueOnServer(boundVars[varName], value); //same separate class?
+        setValueOnServer(boundVars[varName], value);
         return;
     }
     string local = varToSource[varName];
@@ -44,4 +44,12 @@ bool VariableManager::doesVarExist(string varName) {
 void VariableManager::addLocalVar(string varName, double value) {
     localVars[varName] = value;
     varToSource[varName] = varName;
+}
+
+void VariableManager::setValueOnServer(string path, double value) {
+implement this!!!
+}
+
+double VariableManager::getValueFromServer(string path) {
+implement this as well!!!
 }

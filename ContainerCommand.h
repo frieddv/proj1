@@ -13,23 +13,23 @@ protected:
     ICondition *condition;
     list<ICommand*> commands;
 
-    void doAllCommands() {
+    void DoAllCommands() {
         for (ICommand *c : commands) {
-            c->doCommand();
+            c->DoCommand();
         }
     }
 public:
     ContainerCommand(ICondition *condition) : condition(condition){}
-    void addCommand(ICommand *command) {commands.push_back(command);}
-    virtual void doCommand() = 0;
+    void AddCommand(ICommand *command) {commands.push_back(command);}
+    virtual void DoCommand() = 0;
 };
 
 class LoopCommand : public ContainerCommand {
 public:
     LoopCommand(ICondition *condition) : ContainerCommand(condition){}
-    void doCommand() {
-        while (condition->evaluate()) {
-            doAllCommands();
+    void DoCommand() {
+        while (condition->Evaluate()) {
+            DoAllCommands();
         }
     }
 };
@@ -37,9 +37,9 @@ public:
 class IfCommand : public ContainerCommand {
 public:
     IfCommand(ICondition *condition) : ContainerCommand(condition){}
-    void doCommand() {
-        if (condition->evaluate()) {
-            doAllCommands();
+    void DoCommand() {
+        if (condition->Evaluate()) {
+            DoAllCommands();
         }
     }
 };

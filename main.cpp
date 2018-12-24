@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
         return -1;
     }
     Lexer *lexer = new Lexer();
-    vector<string> tokens = lexer->lex(script);
+    queue<string> tokens = lexer->Lex(script);
 
     std::cout << "Hello, World!" << std::endl;
 

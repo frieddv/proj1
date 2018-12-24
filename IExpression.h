@@ -9,7 +9,7 @@
 class IExpression {
 
 public:
-    virtual double calculate() = 0;
+    virtual double Calculate() = 0;
 
     virtual ~IExpression() = 0;
 };

@@ -19,6 +19,10 @@ private:
 
     void bindToLocal(string varName, string target);
 
+    void setValueOnServer(string path, double value);
+
+    double getValueFromServer(string path);
+
 public:
     void addLocalVar(string varName, double value);
 

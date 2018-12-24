@@ -12,7 +12,7 @@ using namespace std;
 
 class UnaryExp : public IExpression {
 public:
-    virtual double calculate() = 0;
+    virtual double Calculate() = 0;
 
     virtual ~UnaryExp() = 0;
 };
@@ -22,7 +22,7 @@ private:
     IExpression *innerExp;
 public:
     Negation(IExpression *innerExp) : innerExp(innerExp) {}
-    double calculate() { return (-1 * innerExp->calculate());}
+    double Calculate() { return (-1 * innerExp->Calculate());}
 
     virtual ~Negation() { delete innerExp;}
 };
@@ -32,7 +32,7 @@ private:
     double value;
 public:
     Number(double value) : value(value) {}
-    double calculate() { return value;}
+    double Calculate() { return value;}
 
     virtual ~Number() {};
 };
@@ -45,7 +45,7 @@ public:
     Var(string varName, VariableManager *manager) : var(varName),
                                                     manager(manager){}
 
-    double calculate() { return manager->getVarValue(var); }
+    double Calculate() { return manager->getVarValue(var); }
 
     virtual ~Var() {};
 };

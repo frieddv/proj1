@@ -17,7 +17,7 @@ using namespace std;
 
 class ICommand {
 public:
-    virtual void doCommand() = 0;
+    virtual void DoCommand() = 0;
 };
 
 class PrintExpCmd : public ICommand {
@@ -25,8 +25,8 @@ private:
     IExpression *exp;
 public:
     PrintExpCmd(IExpression *exp) : exp(exp) {};
-    void doCommand() { cout << exp->calculate();}
-    virtual ~PrintExpCmd() { delete exp;}
+    void DoCommand() { cout << exp->Calculate();}
+    virtual ~PrintExpCmd() { delete exp; }
 };
 
 class PrintStrCmd : public ICommand {
@@ -34,7 +34,7 @@ private:
     string str;
 public:
     PrintStrCmd(string str) {this->str = str.substr(1, str.length() - 2);}
-    void doCommand() {cout << str;}
+    void DoCommand() {cout << str;}
 };
 
 class SleepCmd : public ICommand {
@@ -42,7 +42,7 @@ private:
     IExpression *exp;
 public:
     SleepCmd(IExpression *exp) : exp(exp) {}
-    void doCommand() {this_thread::sleep_for(chrono::milliseconds((int)exp->calculate()));}
+    void DoCommand() {this_thread::sleep_for(chrono::milliseconds((int) exp->Calculate()));}
 };
 
 class DefineVarCmd : public ICommand {
@@ -57,6 +57,6 @@ public:
 
     DefineVarCmd(VariableManager *manager, const string &varName, IExpression *exp) : manager(manager),
                     varName(varName), exp(exp) {}
-    void doCommand();
+    void DoCommand();
 };
 #endif //PROJ1_ICOMMAND_H

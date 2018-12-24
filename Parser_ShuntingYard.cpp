@@ -4,16 +4,12 @@
 
 #include <string>
 #include <vector>
-#include <stack>
-#include <queue>
 #include "IExpression.h"
 #include "BinaryExp.h"
 #include "UnaryExp.h"
 #include "ComparisonCondition.h"
 #include "AggregationCondition.h"
 #include "Parser.h"
-
-typedef enum {AND, OR, BIGGER, SMALLER, EQUAL, NOTEQUAL, BIGEQUAL, SMALLEQUAL, PLUS, MINUS, NEG, MULT, DIV} signOp;
 
 using namespace std;
 
@@ -22,7 +18,7 @@ bool Parser::IsNumber(string token) {
 }
 
 
-signOp Parser::WhatSign(string sign) {
+SignOp Parser::WhatSign(string sign) {
     if (sign == "AND")
         return AND;
     if (sign == "OR")
@@ -51,18 +47,17 @@ signOp Parser::WhatSign(string sign) {
         return DIV;
 }
 
-int Parser::Precedence (string op) {
-    if (!(op.compare("AND")) || !(op.compare("OR"))) {
+int Parser::GetPrecedence(string op) {
+    if (op =="AND" || op == "OR") {
         return 1;
     }
-    if (!(op.compare(">")) || !(op.compare("<")) ||
-        !(op.compare("==")) || !(op.compare("!=")) || !(op.compare(">=")) || !(op.compare("<="))) {
+    if (op == ">" || op == "<" || op == "==" || op == "!=" || op == ">=" || op == "<=") {
         return 2;
     }
-    if (!(op.compare("+")) || !(op.compare("-"))) {
+    if (op == "+" || op == "-") {
         return 3;
     }
-    if (!(op.compare("*")) || !(op.compare("/"))) {
+    if (op == "*" || op == "/") {
         return 4;
     }
     return 5;
@@ -139,7 +134,7 @@ void Parser::ShuntingYard(queue<string> tokens) {
                     ExtractStrFromStack(operators);
                     continue;
                 }
-                if (Precedence(temp) < Precedence(operators.top())) {
+                if (GetPrecedence(temp) < GetPrecedence(operators.top())) {
                     IExpression *right = ExtractExpFromStack(values);
                     IExpression *left = ExtractExpFromStack(values);
                     IExpression *combined = ApplyOp(ExtractStrFromStack(operators), left, right);

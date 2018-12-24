@@ -4,9 +4,9 @@
 
 #include "ICommand.h"
 
-void DefineVarCmd::doCommand() {
+void DefineVarCmd::DoCommand() {
     if (exp != nullptr) {
-        manager->addLocalVar(varName, exp->calculate());
+        manager->addLocalVar(varName, exp->Calculate());
         return;
     }
     manager->bindVar(varName, bindTarget);

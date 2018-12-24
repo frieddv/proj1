@@ -8,7 +8,7 @@
 #include <regex>
 #include <queue>
 
-#define WORD_PAT "[a-zA-Z][a-zA-Z0-9]*"
+#define WORD_PAT "[a-zA-Z_][a-zA-Z0-9_]*"
 #define NUMBER_PAT "(([1-9][0-9]*)|0)(\.[0-9]+)?"
 #define IP_PAT "(([1-9]?[0-9]|1[0-9][0-9]|2[0-4][0-9]|[25[0-5])\.){3}([1-9]?[0-9]|1[0-9][0-9]|2[0-4][0-9]|[25[0-5])"
 #define STRING "\"[^\"]+\""
@@ -32,14 +32,14 @@ private:
     regex singleOp;
     regex delimiters;
 
-    void extractToken(string &line, unsigned long tokenLength,
-                        queue<string>& tokens);
-    void trimLeadingGarbage(string &line);
+    void ExtractToken(string &line, unsigned long tokenLength,
+                      queue<string> &tokens);
+    void TrimLeadingGarbage(string &line);
 
-    bool lineStartsWith(const string &line, smatch &match,
+    bool LineStartsWith(const string &line, smatch &match,
                         const regex &tokenTemplate) const;
 
-    void tryExtractLeadingToken(string &temp, queue<string> &tokens,
+    void TryExtractLeadingToken(string &temp, queue<string> &tokens,
                                 const regex &tokenType);
 
 public:
@@ -47,7 +47,7 @@ public:
             stringParam(STRING), dualOp(DUAL_OPERATOR),
             singleOp(SINGLE_OPERATOR), delimiters(DELIMITERS) {}
 
-    queue<string> lex(istream &buffer);
+    queue<string> Lex(istream &buffer);
 };
 
 

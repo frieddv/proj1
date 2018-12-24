@@ -10,6 +10,7 @@
 #include "BinaryExp.h"
 #include "UnaryExp.h"
 #include "ComparisonCondition.h"
+#include "AggregationCondition.h"
 
 typedef enum {AND, OR, BIGGER, SMALLER, EQUAL, NOTEQUAL, BIGEQUAL, SMALLEQUAL, PLUS, MINUS, MULT, DIV} signOp;
 
@@ -96,8 +97,15 @@ void ShuntingYard(queue<string> tokens) {
                     IExpression *combined;
                     switch (whatSign(operators.top())) {
                         case AND:
+                            //todo another solution than downcasting
+                            combined = new AndCondition((ICondition*)left, (ICondition*)right);
+                            values.push(combined);
+                            operators.pop();
                             break;
                         case OR:
+                            combined = new OrCondition((ICondition*)left, (ICondition*)right);
+                            values.push(combined);
+                            operators.pop();
                             break;
                         case SMALLER:
                             combined = new LessThan(left, right);
@@ -129,7 +137,6 @@ void ShuntingYard(queue<string> tokens) {
                             values.push(combined);
                             operators.pop();
                             break;
-                            //todo checking if needed to get rid from those cases.
                         case PLUS:
                             combined = new Addition(left, right);
                             values.push(combined);
@@ -161,19 +168,54 @@ void ShuntingYard(queue<string> tokens) {
                     IExpression *combined;
                     switch (whatSign(temp)) {
                         case AND:
+                            //todo another solution than downcasting
+                            combined = new AndCondition((ICondition*)left, (ICondition*)right);
+                            values.push(combined);
+                            temp = operators.top();
+                            operators.pop();
                             break;
                         case OR:
+                            combined = new OrCondition((ICondition*)left, (ICondition*)right);
+                            values.push(combined);
+                            temp = operators.top();
+                            operators.pop();
                             break;
                         case SMALLER:
-                            twoExpressions = left < right;
+                            combined = new LessThan(left, right);
+                            values.push(combined);
+                            temp = operators.top();
+                            operators.pop();
                             break;
                         case BIGGER:
-                            twoExpressions = left > right;
+                            combined = new GreaterThan(left, right);
+                            values.push(combined);
+                            temp = operators.top();
+                            operators.pop();
                             break;
                         case EQUAL:
-                            twoExpressions = left == right;
+                            combined = new EqualTo(left, right);
+                            values.push(combined);
+                            temp = operators.top();
+                            operators.pop();
                             break;
-                            //todo checking if needed to get rid from those cases.
+                        case NOTEQUAL:
+                            combined = new NotEqualTo(left, right);
+                            values.push(combined);
+                            temp = operators.top();
+                            operators.pop();
+                            break;
+                        case BIGEQUAL:
+                            combined = new GreaterEqualThan(left, right);
+                            values.push(combined);
+                            temp = operators.top();
+                            operators.pop();
+                            break;
+                        case SMALLEQUAL:
+                            combined = new LessEqualThan(left, right);
+                            values.push(combined);
+                            temp = operators.top();
+                            operators.pop();
+                            break;
                         case PLUS:
                             combined = new Addition(left, right);
                             values.push(combined);

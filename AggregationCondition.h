@@ -10,29 +10,22 @@
 
 class AggregationCondition : public ICondition {
 protected:
-
     ICondition *lhs;
-
     ICondition *rhs;
-
 public:
-
     AggregationCondition(ICondition *left, ICondition *right) : lhs(left), rhs(right) {}
-
     virtual bool evaluate() = 0;
 };
 
 class OrCondition : public AggregationCondition {
-
-    bool evaluate() {
-        return lhs->evaluate() || rhs->evaluate();
-    }
+public:
+    OrCondition(ICondition *left, ICondition *right) : AggregationCondition(left, right) {}
+    bool evaluate() {return lhs->evaluate() || rhs->evaluate();}
 };
 
 class AndCondition : public AggregationCondition {
-
-    bool evaluate() {
-        return lhs->evaluate() && rhs->evaluate();
-    }
+public:
+    AndCondition(ICondition *left, ICondition *right) : AggregationCondition(left, right) {}
+    bool evaluate() { return lhs->evaluate() && rhs->evaluate();}
 };
 #endif //PROJ1_SEGREGATIONCONDITION_H

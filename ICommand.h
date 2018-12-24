@@ -6,12 +6,9 @@
 #define PROJ1_ICOMMAND_H
 
 
-#include <vector>
-#include <string>
 #include <iostream>
 #include <chrono>
 #include <thread>
-#include <map>
 #include "ICondition.h"
 #include "IExpression.h"
 #include "VariableManager.h"
@@ -23,20 +20,15 @@ public:
     virtual void doCommand() = 0;
 };
 
-class ContainerCommand : public ICommand {
-protected:
-    ICondition *condition;
-public:
-    ContainerCommand(std::vector<std::string> info);
-};
 class PrintExpCmd : public ICommand {
 private:
     IExpression *exp;
 public:
     PrintExpCmd(IExpression *exp) : exp(exp) {};
-    void doCommand () { cout << exp->calculate();}
+    void doCommand() { cout << exp->calculate();}
     virtual ~PrintExpCmd() { delete exp;}
 };
+
 class PrintStrCmd : public ICommand {
 private:
     string str;
@@ -44,6 +36,7 @@ public:
     PrintStrCmd(string str) {this->str = str.substr(1, str.length() - 2);}
     void doCommand() {cout << str;}
 };
+
 class SleepCmd : public ICommand {
 private:
     IExpression *exp;
@@ -59,13 +52,11 @@ private:
     string bindTarget;
     IExpression *exp;
 public:
-    DefineVarCmd(VariableManager *manager, const string &varName,
-                const string &bindTarget) : manager(manager), varName(varName),
-                bindTarget(bindTarget), exp(nullptr) {}
+    DefineVarCmd(VariableManager *manager, const string &varName, const string &bindTarget) : manager(manager),
+                    varName(varName), bindTarget(bindTarget), exp(nullptr) {}
 
-    DefineVarCmd(VariableManager *manager, const string &varName,
-                IExpression *exp) : manager(manager), varName(varName),
-                exp(exp) {}
+    DefineVarCmd(VariableManager *manager, const string &varName, IExpression *exp) : manager(manager),
+                    varName(varName), exp(exp) {}
     void doCommand();
 };
 #endif //PROJ1_ICOMMAND_H

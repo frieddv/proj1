@@ -13,6 +13,8 @@ using namespace std;
 class UnaryExp : public IExpression {
 public:
     virtual double calculate() = 0;
+
+    virtual ~UnaryExp() = 0;
 };
 
 class Negation : public UnaryExp {
@@ -21,7 +23,9 @@ private:
 public:
     Negation(IExpression *innerExp) : innerExp(innerExp) {}
     double calculate() { return (-1 * innerExp->calculate());}
- };
+
+    virtual ~Negation() { delete innerExp;}
+};
 
 class Number : public UnaryExp {
 private:
@@ -29,6 +33,8 @@ private:
 public:
     Number(double value) : value(value) {}
     double calculate() { return value;}
+
+    virtual ~Number() {};
 };
 
 class Var : public UnaryExp{
@@ -40,6 +46,8 @@ public:
                                                     manager(manager){}
 
     double calculate() { return manager->getVarValue(var); }
+
+    virtual ~Var() {};
 };
 
 #endif //PROJ1_UNARYEXP_H

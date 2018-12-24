@@ -16,8 +16,11 @@ protected:
 public:
 
     virtual double calculate() = 0;
-
     BinaryExp(IExpression *a, IExpression *b) : left(a), right(b) {}
+    virtual ~BinaryExp() {
+        delete left;
+        delete right;
+    }
 };
 
 class Addition : public BinaryExp {

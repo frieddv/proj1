@@ -6,9 +6,13 @@
 #define PROJ1_ICONDITION_H
 
 
-class ICondition {
+#include "IExpression.h"
+
+class ICondition : public IExpression{
 public:
     virtual bool evaluate() = 0;
+
+    virtual double calculate() { return (int) evaluate();}
 };
 
 

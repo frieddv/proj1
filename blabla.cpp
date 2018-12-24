@@ -9,6 +9,7 @@
 #include "IExpression.h"
 #include "BinaryExp.h"
 #include "UnaryExp.h"
+#include "ComparisonCondition.h"
 
 typedef enum {AND, OR, BIGGER, SMALLER, EQUAL, NOTEQUAL, BIGEQUAL, SMALLEQUAL, PLUS, MINUS, MULT, DIV} signOp;
 
@@ -17,6 +18,7 @@ using namespace std;
 bool isNumber(string token) {
 
 }
+
 
 signOp whatSign (string sign) {
     if (!sign.compare("AND"))
@@ -64,28 +66,25 @@ int Precedence (string op) {
 
 void ShuntingYard(queue<string> tokens) {
     bool twoExpressions;
-    stack <IExpression*> values;
-    stack <string> operators;
+    stack<IExpression*> values;
+    stack<string> operators;
     int flag = 0;
+    VariableManager *manager;
 
     while (!tokens.empty()) {
         if (tokens.front() == "(") {
             operators.push(tokens.front());
             flag = 1;
-        }
-        else if (isNumber(tokens.front())) {
+        } else if (isNumber(tokens.front())) {
             IExpression *exp = new Number(stoi(tokens.front()));
             values.push(exp);
             flag = 0;
-        }
-        else if (isVarName(tokens.front())) {
+        } else if (manager->doesVarExist(tokens.front())) {
             //todo : fix how to see if its already in maps, means  - is it fine to add pointers to maps in this class
-            
-            IExpression *exp = new Var(tokens.front());
+            IExpression *exp = new Var(tokens.front(), manager);
             values.push(exp);
             flag = 0;
-        }
-        else if (tokens.front() == ")") {
+        } else if (tokens.front() == ")") {
             string temp = operators.top();
             operators.pop();
             while (!operators.empty() && operators.top() != "(") {
@@ -101,40 +100,60 @@ void ShuntingYard(queue<string> tokens) {
                         case OR:
                             break;
                         case SMALLER:
-                            twoExpressions = left < right;
+                            combined = new LessThan(left, right);
+                            values.push(combined);
+                            operators.pop();
                             break;
                         case BIGGER:
-                            twoExpressions = left > right;
+                            combined = new GreaterThan(left, right);
+                            values.push(combined);
+                            operators.pop();
                             break;
                         case EQUAL:
-                            twoExpressions = left == right;
+                            combined = new EqualTo(left, right);
+                            values.push(combined);
+                            operators.pop();
+                            break;
+                        case NOTEQUAL:
+                            combined = new NotEqualTo(left, right);
+                            values.push(combined);
+                            operators.pop();
+                            break;
+                        case BIGEQUAL:
+                            combined = new GreaterEqualThan(left, right);
+                            values.push(combined);
+                            operators.pop();
+                            break;
+                        case SMALLEQUAL:
+                            combined = new LessEqualThan(left, right);
+                            values.push(combined);
+                            operators.pop();
                             break;
                             //todo checking if needed to get rid from those cases.
-//                        case PLUS:
-//                            *combined = new Addition(left, right);
-//                            values.push(combined);
-//                            operators.pop();
-//                            break;
-//                        case MINUS:
-//                            *combined = new Subtraction(left, right);
-//                            values.push(combined);
-//                            operators.pop();
-//                            break;
+                        case PLUS:
+                            combined = new Addition(left, right);
+                            values.push(combined);
+                            operators.pop();
+                            break;
+                        case MINUS:
+                            combined = new Subtraction(left, right);
+                            values.push(combined);
+                            operators.pop();
+                            break;
                         case MULT:
-                            *combined = new Multiplication(left, right);
+                            combined = new Multiplication(left, right);
                             values.push(combined);
                             operators.pop();
                             break;
                         case DIV:
-                            *combined = new Division(left, right);
+                            combined = new Division(left, right);
                             values.push(combined);
                             operators.pop();
                             break;
                         default:
                             break;
                     }
-                }
-                else {
+                } else {
                     IExpression *right = values.top();
                     values.pop();
                     IExpression *left = values.top();
@@ -155,40 +174,39 @@ void ShuntingYard(queue<string> tokens) {
                             twoExpressions = left == right;
                             break;
                             //todo checking if needed to get rid from those cases.
-//                        case PLUS:
-//                            *combined = new Addition(left, right);
-//                            values.push(combined);
-//                            temp = operators.top();
-//                            operators.pop();
-//                            break;
-//                        case MINUS:
-//                            *combined = new Subtraction(left, right);
-//                            values.push(combined);
-//                            temp = operators.top();
-//                            operators.pop();
-//                            break;
+                        case PLUS:
+                            combined = new Addition(left, right);
+                            values.push(combined);
+                            temp = operators.top();
+                            operators.pop();
+                            break;
+                        case MINUS:
+                            combined = new Subtraction(left, right);
+                            values.push(combined);
+                            temp = operators.top();
+                            operators.pop();
+                            break;
                         case MULT:
-                            *combined = new Multiplication(left, right);
+                            combined = new Multiplication(left, right);
                             values.push(combined);
                             temp = operators.top();
                             operators.pop();
                             break;
                         case DIV:
-                            *combined = new Division(left, right);
+                            combined = new Division(left, right);
                             values.push(combined);
                             temp = operators.top();
                             operators.pop();
                             break;
                         default:
                             break;
+                    }
                 }
-            }
 
+            }
         }
     }
-    else if ()
 }
-
-IExpression *apllOp () {
+IExpression *apllOp() {
 
 }

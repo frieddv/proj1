@@ -66,9 +66,9 @@ int Parser::GetPrecedence(string op) {
 IExpression* Parser::ApplyOp(string op, IExpression *left, IExpression *right) {
     switch (WhatSign(op)) {
         case AND:
-            return new AndCondition((ICondition*)left, (ICondition*)right);
+            return new AndCondition(left, right);
         case OR:
-            return new OrCondition((ICondition*)left, (ICondition*)right);
+            return new OrCondition(left, right);
         case SMALLER:
             return new LessThan(left, right);
         case BIGGER:
@@ -164,5 +164,27 @@ void Parser::ShuntingYard(queue<string> tokens) {
         }
         tokens.pop();
     }
-
+    //finised passing over the input, now making it into one big exp*
+    string temp = ExtractStrFromStack(operators);
+    while (values.size() != 1) {
+        if (operators.top() == "~") {
+            IExpression *right = new Negation(ExtractExpFromStack(values));
+            values.push(right);
+            ExtractStrFromStack(operators);
+            continue;
+        }
+        if (GetPrecedence(temp) < GetPrecedence(operators.top())) {
+            IExpression *right = ExtractExpFromStack(values);
+            IExpression *left = ExtractExpFromStack(values);
+            IExpression *combined = ApplyOp(ExtractStrFromStack(operators), left, right);
+            values.push(combined);
+        } else {
+            IExpression *right = ExtractExpFromStack(values);
+            IExpression *left = ExtractExpFromStack(values);
+            IExpression *combined = ApplyOp(temp, left, right);
+            values.push(combined);
+            temp = ExtractStrFromStack(operators);
+        }
+    }
+    //return ExtractExpFromStack(values);
 }

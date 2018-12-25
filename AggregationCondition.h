@@ -10,22 +10,22 @@
 
 class AggregationCondition : public ICondition {
 protected:
-    ICondition *lhs;
-    ICondition *rhs;
+    IExpression *lhs;
+    IExpression *rhs;
 public:
-    AggregationCondition(ICondition *left, ICondition *right) : lhs(left), rhs(right) {}
+    AggregationCondition(IExpression *left, IExpression *right) : lhs(left), rhs(right) {}
     virtual bool Evaluate() = 0;
 };
 
 class OrCondition : public AggregationCondition {
 public:
-    OrCondition(ICondition *left, ICondition *right) : AggregationCondition(left, right) {}
-    bool Evaluate() {return lhs->Evaluate() || rhs->Evaluate();}
+    OrCondition(IExpression *left, IExpression *right) : AggregationCondition(left, right) {}
+    bool Evaluate() {return lhs->Calculate() || rhs->Calculate();}
 };
 
 class AndCondition : public AggregationCondition {
 public:
-    AndCondition(ICondition *left, ICondition *right) : AggregationCondition(left, right) {}
-    bool Evaluate() { return lhs->Evaluate() && rhs->Evaluate();}
+    AndCondition(IExpression *left, IExpression *right) : AggregationCondition(left, right) {}
+    bool Evaluate() { return lhs->Calculate() && rhs->Calculate();}
 };
 #endif //PROJ1_SEGREGATIONCONDITION_H

@@ -10,7 +10,7 @@
 
 class ContainerCommand : public ICommand {
 protected:
-    ICondition *condition;
+    IExpression *expression;
     list<ICommand*> commands;
 
     void DoAllCommands() {
@@ -19,16 +19,16 @@ protected:
         }
     }
 public:
-    ContainerCommand(ICondition *condition) : condition(condition){}
+    ContainerCommand(IExpression *expression) : expression(expression){}
     void AddCommand(ICommand *command) {commands.push_back(command);}
     virtual void DoCommand() = 0;
 };
 
 class LoopCommand : public ContainerCommand {
 public:
-    LoopCommand(ICondition *condition) : ContainerCommand(condition){}
+    LoopCommand(IExpression *expression) : ContainerCommand(expression){}
     void DoCommand() {
-        while (condition->Evaluate()) {
+        while (expression->Calculate()) {
             DoAllCommands();
         }
     }
@@ -36,9 +36,9 @@ public:
 
 class IfCommand : public ContainerCommand {
 public:
-    IfCommand(ICondition *condition) : ContainerCommand(condition){}
+    IfCommand(IExpression *expression) : ContainerCommand(expression){}
     void DoCommand() {
-        if (condition->Evaluate()) {
+        if (expression->Calculate()) {
             DoAllCommands();
         }
     }

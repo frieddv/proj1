@@ -9,13 +9,17 @@
 #include <stack>
 #include "ICommand.h"
 
-enum Commands { VarCmd, OpenDataServerCmd, ConnectCmd, PrintCmd, WhileCmd, IfCmd, SleepCmd, DefineCmd };
-enum SignOp {AND, OR, BIGGER, SMALLER, EQUAL, NOTEQUAL, BIGEQUAL, SMALLEQUAL, PLUS, MINUS, NEG, MULT, DIV};
+#define SYNTAX_ERROR "Syntax Error"
+
+enum Commands { SET_VAR, OPEN_DATA_SERVER, CONNECT, PRINT, WHILE, IF, SLEEP, DEFINE_VAR };
+enum SignOp {AND, OR, BIGGER, SMALLER, EQUAL, NOT_EQUAL, BIG_EQUAL, SMALL_EQUAL, PLUS, MINUS, NEG, MULT, DIV};
 
 class Parser {
 private:
-    ICommand *CreateCommand(queue<string> &tokens);
-    ICommand *CreateContainerCmd(queue<string> &tokens);
+    VariableManager *manager;
+
+    ICommand *CreateCommand(queue<string> &tokens, Commands id);
+    ICommand *CreateContainerCmd(queue<string> &tokens, Commands id);
     string ExtractToken(queue<string> &tokens);
     Commands IdentifyCommand(string firstToken);
     bool IsNumber(string token);
@@ -25,9 +29,17 @@ private:
     string ExtractStrFromStack(stack<string> stack);
     IExpression* ExtractExpFromStack(stack<IExpression*> stack);
     void ShuntingYard(queue<string> tokens);
+    bool IsContainer(Commands id);
+    Commands GetCommandId(queue<string> &tokens);
+    bool IsWithinExpression(queue<string> &tokens);
 
 public:
+    Parser(VariableManager *manager) : manager(manager) {}
     vector<ICommand*> Parse(queue<string> tokens);
+
+    void ConfirmLineEnd(queue<string> &tokens);
+
+    bool IsString(string token) const;
 };
 
 

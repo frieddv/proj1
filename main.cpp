@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "Lexer.h"
+#include "Parser.h"
 
 using namespace std;
 
@@ -12,10 +13,16 @@ int main(int argc, char *argv[]) {
         return -1;
     }
     Lexer *lexer = new Lexer();
+    VariableManager *varMgr = new VariableManager();
+    Parser *parser = new Parser(varMgr);
     queue<string> tokens = lexer->Lex(script);
+    vector<ICommand*> commands = parser->Parse(tokens);
 
-    std::cout << "Hello, World!" << std::endl;
+    for (ICommand *c : commands)
+        c->DoCommand();
 
+    delete parser;
+    delete varMgr;
     delete lexer;
     script.close();
     return 0;

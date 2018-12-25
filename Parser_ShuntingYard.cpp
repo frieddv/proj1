@@ -30,11 +30,11 @@ SignOp Parser::WhatSign(string sign) {
     if (sign == "==")
         return EQUAL;
     if (sign == "!=")
-        return NOTEQUAL;
+        return NOT_EQUAL;
     if (sign == ">=")
-        return BIGEQUAL;
+        return BIG_EQUAL;
     if (sign == "<=")
-        return SMALLEQUAL;
+        return SMALL_EQUAL;
     if (sign == "+")
         return PLUS;
     if (sign == "~")
@@ -75,11 +75,11 @@ IExpression* Parser::ApplyOp(string op, IExpression *left, IExpression *right) {
             return new GreaterThan(left, right);
         case EQUAL:
             return new EqualTo(left, right);
-        case NOTEQUAL:
+        case NOT_EQUAL:
             return new NotEqualTo(left, right);
-        case BIGEQUAL:
+        case BIG_EQUAL:
             return new GreaterEqualThan(left, right);
-        case SMALLEQUAL:
+        case SMALL_EQUAL:
             return new LessEqualThan(left, right);
         case PLUS:
             return new Addition(left, right);
@@ -110,7 +110,6 @@ void Parser::ShuntingYard(queue<string> tokens) {
     stack<IExpression*> values;
     stack<string> operators;
     int flag = 1;
-    VariableManager *manager;
 
     while (!tokens.empty()) {
         if (tokens.front() == "(") {

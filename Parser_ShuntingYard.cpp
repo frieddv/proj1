@@ -150,7 +150,7 @@ void Parser::ShuntingYard(queue<string> tokens) {
             if (operators.top() == "(") {
                 ExtractStrFromStack(operators);
             }
-
+            flag = 0;
         }
         else if (tokens.front() == "-") {
             if (flag == 1) {

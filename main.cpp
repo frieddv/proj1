@@ -18,8 +18,10 @@ int main(int argc, char *argv[]) {
     queue<string> tokens = lexer->Lex(script);
     vector<ICommand*> commands = parser->Parse(tokens);
 
-    for (ICommand *c : commands)
+    for (ICommand *c : commands) {
         c->DoCommand();
+        delete c;
+    }
 
     delete parser;
     delete varMgr;

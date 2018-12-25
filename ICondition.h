@@ -12,7 +12,7 @@ class ICondition : public IExpression{
 public:
     virtual bool Evaluate() = 0;
 
-    virtual double Calculate() { return (int) Evaluate();}
+    virtual double Calculate() { return Evaluate() ? 1 : 0; }
 };
 
 

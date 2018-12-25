@@ -163,7 +163,7 @@ void Parser::ShuntingYard(queue<string> tokens) {
         }
         tokens.pop();
     }
-    //finised passing over the input, now making it into one big exp*
+    //finised passing over the Input, now making it into one big exp*
     string temp = ExtractStrFromStack(operators);
     while (values.size() != 1) {
         if (operators.top() == "~") {

@@ -53,3 +53,7 @@ implement this!!!
 double VariableManager::getValueFromServer(string path) {
 implement this as well!!!
 }
+
+void VariableManager::setIndices(string path, int index) {
+    pathesToIndices[path] = index;
+}

@@ -45,6 +45,7 @@ SignOp Parser::WhatSign(string sign) {
         return MULT;
     if (sign == "/")
         return DIV;
+    return INVALID;
 }
 
 int Parser::GetPrecedence(string op) {
@@ -106,7 +107,7 @@ IExpression *Parser::ExtractExpFromStack(stack<IExpression *> stack) {
     return exp;
 }
 
-void Parser::ShuntingYard(queue<string> tokens) {
+IExpression* Parser::ShuntingYard(queue<string> &tokens) {
     stack<IExpression*> values;
     stack<string> operators;
     int flag = 1;
@@ -185,5 +186,5 @@ void Parser::ShuntingYard(queue<string> tokens) {
             temp = ExtractStrFromStack(operators);
         }
     }
-    //return ExtractExpFromStack(values);
+    return ExtractExpFromStack(values);
 }

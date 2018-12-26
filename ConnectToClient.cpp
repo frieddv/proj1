@@ -47,11 +47,13 @@ void *ConnectToClient(void *args) {
     }
 
     while (true){
-        if (params->data->sendNotEmpty()){
+        //todo change the function, basiclly equivalent to IsUpdatePending()
+        if (params->variableManager->sendNotEmpty()){
 
-            // parameters to send
-            map <string, double> toSend = params->data->getSend();
-            string path = params->data->getBind(toSend.begin()->first);
+            // parameters to send - the stuff needed to be sent
+            map <string, double> toSend = params->variableManager->getSend();
+            //returns iterator to the map of binding stuff
+            string path = params->variableManager->getBind(toSend.begin()->first);
             double value = toSend.begin()->second;
 
             // creating the message

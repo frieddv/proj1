@@ -16,16 +16,20 @@ int main(int argc, char *argv[]) {
     VariableManager *varMgr = new VariableManager();
     Parser *parser = new Parser(varMgr);
     queue<string> tokens = lexer->Lex(script);
-    vector<ICommand*> commands = parser->Parse(tokens);
+    script.close();
+    queue<ICommand*> commands = parser->Parse(tokens);
 
-    for (ICommand *c : commands) {
-        c->DoCommand();
-        delete c;
+    ICommand *command;
+    while (!commands.empty()) {
+        command = commands.front();
+        command->DoCommand();
+        commands.pop();
+        delete command;
     }
+
 
     delete parser;
     delete varMgr;
     delete lexer;
-    script.close();
     return 0;
 }

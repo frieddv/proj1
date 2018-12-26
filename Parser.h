@@ -37,7 +37,7 @@ private:
 
 public:
     Parser(VariableManager *manager) : manager(manager) {}
-    vector<ICommand*> Parse(queue<string> tokens);
+    queue<ICommand*> Parse(queue<string> tokens);
 
     void TrimEndline(queue<string> &tokens);
 

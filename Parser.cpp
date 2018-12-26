@@ -6,14 +6,14 @@
 #include "OpenDataServerCmd.h"
 #include "ContainerCommand.h"
 
-vector<ICommand*> Parser::Parse(queue<string> tokens) {
-    vector<ICommand*> commands;
+queue<ICommand*> Parser::Parse(queue<string> tokens) {
+    queue<ICommand*> commands;
     while (!tokens.empty()) {
         Commands id = GetCommandId(tokens);
         if (IsContainer(id))
-            commands.push_back(CreateContainerCmd(tokens, id));
+            commands.push(CreateContainerCmd(tokens, id));
         else
-            commands.push_back(CreateCommand(tokens, id));
+            commands.push(CreateCommand(tokens, id));
         TrimEndline(tokens);
     }
     return commands;
@@ -61,8 +61,7 @@ ICommand* Parser::CreateCommand(queue<string> &tokens, Commands id) {
             varName = ExtractToken(tokens);
             if (ExtractToken(tokens) != "=")
                 perror(SYNTAX_ERROR);
-            //return new UpdateVarCmd(varName, ExtractExpression(tokens));
-            break;
+            return new UpdateVarCmd(manager, varName, ExtractExpression(tokens));
         }
         case OPEN_DATA_SERVER: {
             IExpression *port = ExtractExpression(tokens);
@@ -70,7 +69,9 @@ ICommand* Parser::CreateCommand(queue<string> &tokens, Commands id) {
             return new OpenDataServerCmd(manager, port, hz);
         }
         case CONNECT: {
-            break;
+            string ip = ExtractToken(tokens);
+            IExpression *port = ExtractExpression(tokens);
+            return new ConnectCmd(manager, ip, port);
         }
         case PRINT: {
             if (IsString(tokens.front()))

@@ -18,6 +18,7 @@ using namespace std;
 class ICommand {
 public:
     virtual void DoCommand() = 0;
+    virtual ~ICommand() = default;
 };
 
 class PrintExpCmd : public ICommand {
@@ -63,5 +64,17 @@ public:
         if (exp != nullptr)
             delete exp;
     }
+};
+
+class UpdateVarCmd : public ICommand {
+private:
+    VariableManager *manager;
+    string varName;
+    IExpression *exp;
+public:
+    UpdateVarCmd(VariableManager *manager, const string &varName, IExpression *exp) : manager(manager),
+                    varName(varName), exp(exp) {}
+    void DoCommand() { manager->setVarValue(varName, exp->Calculate()); }
+    virtual ~UpdateVarCmd() { delete exp; }
 };
 #endif //PROJ1_ICOMMAND_H

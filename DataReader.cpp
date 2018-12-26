@@ -62,10 +62,13 @@ void DataReader::connectToClient(int portNumber, int hz, VariableManager *variab
 //
 }
 
-void setInputSymbols(const string &line, VariableManager *variableManager) {
+void setInputSymbols(string line, VariableManager *variableManager) {
     vector<double> lineArgs;
     char *copyString;
-    copyString = strtok(line, ","); //from the net whole while loop
+    const char *asCharArr = line.c_str();
+    char copy[strlen(asCharArr)];
+    strcpy(copy, asCharArr);
+    copyString = strtok(copy, ","); //from the net whole while loop
     while (copyString != NULL) {
         lineArgs.push_back(stod(copyString)); //insert current token to vector
         copyString = strtok(NULL, ","); //go to next token

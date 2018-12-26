@@ -9,7 +9,7 @@ void *ConnectToClient(void *args) {
 
     int sockfd;
     ConnectInput* params = (ConnectInput*) args;
-
+    vector<int> sockets;
 
     struct sockaddr_in serv_addr;
     struct hostent *server;
@@ -22,7 +22,7 @@ void *ConnectToClient(void *args) {
         exit(1);
     }
 
-    params->variableManager->addSocket(sockfd);
+    sockets.push_back(sockfd);
 
     int len = params->IP.size();
     char char_array[len + 1];
@@ -37,7 +37,7 @@ void *ConnectToClient(void *args) {
     bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
-    serv_addr.sin_port = htons(params->port);
+    serv_addr.sin_port = htons(params->portNum);
 
 
     // connect to the server
@@ -71,6 +71,9 @@ void *ConnectToClient(void *args) {
        * will be read by server
     */
 
-
+    for (int socket : sockets) {
+        close(socket);
+    }
+    params->variableManager->ThreadFinished(CLIENT);
     return nullptr;
 }

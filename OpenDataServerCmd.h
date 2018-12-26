@@ -28,6 +28,11 @@ public:
     static void* OpenServer(void* input);
 
     virtual void DoCommand();
+
+    virtual ~OpenDataServerCmd() {
+        delete portNo;
+        delete hz;
+    }
 };
 
 

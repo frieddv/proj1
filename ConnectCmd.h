@@ -28,6 +28,8 @@ public:
     static void* ConnectClient(void* input);
 
     virtual void DoCommand();
+
+    virtual ~ConnectCmd() { delete port; }
 };
 
 

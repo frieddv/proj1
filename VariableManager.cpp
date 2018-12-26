@@ -4,7 +4,7 @@
 
 #include "VariableManager.h"
 
-void VariableManager::bindToLocal(string varName, string target) {
+void VariableManager::BindToLocal(string varName, string target) {
     if (boundVars.count(target)) {
         boundVars[varName] = boundVars[target];
         return;
@@ -12,24 +12,24 @@ void VariableManager::bindToLocal(string varName, string target) {
     varToSource[varName] = varToSource[target];
 }
 
-void VariableManager::bindVar(string varName, string target) {
+void VariableManager::BindVar(string varName, string target) {
     if (target[0] == '\"') {
-        bindToServer(varName, target);
+        BindToServer(varName, target);
         return;
     }
-    bindToLocal(varName, target);
+    BindToLocal(varName, target);
 }
 
-double VariableManager::getVarValue(string varName) {
+double VariableManager::GetVarValue(string varName) {
     if (boundVars.count(varName))
-        return getValueFromServer(boundVars[varName]);
+        return GetValueFromServer(boundVars[varName]);
     string local = varToSource[varName];
     return localVars[local];
 }
 
-void VariableManager::setVarValue(string varName, double value) {
+void VariableManager::SetVarValue(string varName, double value) {
     if (boundVars.count(varName)) {
-        setValueOnServer(boundVars[varName], value);
+        SetValueOnServer(boundVars[varName], value);
         return;
     }
     string local = varToSource[varName];
@@ -37,24 +37,25 @@ void VariableManager::setVarValue(string varName, double value) {
 
 }
 
-bool VariableManager::doesVarExist(string varName) {
+bool VariableManager::DoesVarExist(string varName) {
     return (varToSource.count(varName)) || (boundVars.count(varName));
 }
 
-void VariableManager::addLocalVar(string varName, double value) {
+void VariableManager::AddLocalVar(string varName, double value) {
     localVars[varName] = value;
     varToSource[varName] = varName;
 }
 
-void VariableManager::setValueOnServer(string path, double value) {
+void VariableManager::SetValueOnServer(string path, double value) {
     pendingUpdates.push(make_pair(path.substr(1, path.length() - 2), value));
 }
 
-double VariableManager::getValueFromServer(string path) {
-//implement this as well!!!
+double VariableManager::GetValueFromServer(string path) {
+    string corePath = path.substr(1, path.length() - 2);
+    return pathsToXml[corePath];
 }
 
-void VariableManager::setIndices(string path, double index) {
+void VariableManager::SetIndices(string path, double index) {
     pathsToXml[path] = index;
 }
 

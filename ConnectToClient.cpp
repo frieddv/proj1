@@ -49,18 +49,18 @@ void *ConnectToClient(void *args) {
         exit(1);
     }
 
-    while (true){
+    while (!params->variableManager->IsThreadFinished(MAIN)) {
         //todo change the function, basiclly equivalent to IsUpdatePending()
-        if (params->variableManager->sendNotEmpty()){
+        if (params->variableManager->IsUpdatePending()){
 
             // parameters to send - the stuff needed to be sent
-            map <string, double> toSend = params->variableManager->getSend();
+            pair<string, double> toSend = params->variableManager->PopPendingUpdate();
             //returns iterator to the map of binding stuff
-            string path = params->variableManager->getBind(toSend.begin()->first);
-            double value = toSend.begin()->second;
+            string path = toSend.first;
+            double value = toSend.second;
 
             // creating the message
-            string message = "set " + path+ " " + to_string(value) + "\r\n";
+            string message = "set " + path + " " + to_string(value) + "\r\n";
 
             ssize_t n;
 

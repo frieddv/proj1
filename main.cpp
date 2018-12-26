@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
     }
 
     varMgr->ThreadFinished(MAIN);
-    while (!(varMgr->isThreadFinished(SERVER) && varMgr->isThreadFinished(CLIENT)))
+    while (!(varMgr->IsThreadFinished(SERVER) && varMgr->IsThreadFinished(CLIENT)))
         this_thread::sleep_for(chrono::milliseconds(200));
 
     delete parser;

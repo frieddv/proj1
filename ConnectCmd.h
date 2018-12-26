@@ -22,9 +22,10 @@ protected:
     VariableManager *variableManager;
 public:
 
-    ConnectCmd(IExpression *port, const string &IP, VariableManager *variableManager);
+    ConnectCmd(IExpression *port, const string &IP, VariableManager *variableManager) : port(port), IP(IP),
+                    variableManager(variableManager) {}
 
-    static void* ConnectToClient(void* input);
+    static void* ConnectClient(void* input);
 
     virtual void DoCommand();
 };

@@ -120,7 +120,7 @@ IExpression* Parser::ShuntingYard(queue<string> &tokens) {
             IExpression *exp = new Number(stoi(tokens.front()));
             values.push(exp);
             flag = 0;
-        } else if (manager->doesVarExist(tokens.front())) {
+        } else if (manager->DoesVarExist(tokens.front())) {
             //todo : fix how to see if its already in maps, means  - is it fine to add pointers to maps in this class
             IExpression *exp = new Var(tokens.front(), manager);
             values.push(exp);

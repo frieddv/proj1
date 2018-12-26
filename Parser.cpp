@@ -72,7 +72,7 @@ ICommand* Parser::CreateCommand(queue<string> &tokens, Commands id) {
         case CONNECT: {
             string ip = ExtractToken(tokens);
             IExpression *port = ExtractExpression(tokens);
-            return new ConnectCmd(manager, ip, port);
+            return new ConnectCmd(port, ip, manager);
         }
         case PRINT: {
             if (IsString(tokens.front()))

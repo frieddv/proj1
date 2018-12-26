@@ -22,32 +22,32 @@ private:
     map<ThreadId, bool> isThreadDone = {{MAIN, false}, {SERVER, true}, {CLIENT, true}};
     bool isConnected = false;
 
-    void bindToServer(string varName, string path) {boundVars[varName] = path;}
+    void BindToServer(string varName, string path) {boundVars[varName] = path;}
 
-    void bindToLocal(string varName, string target);
+    void BindToLocal(string varName, string target);
 
-    void setValueOnServer(string path, double value);
+    void SetValueOnServer(string path, double value);
 
-    double getValueFromServer(string path);
+    double GetValueFromServer(string path);
 
 public:
-    void addLocalVar(string varName, double value);
+    void AddLocalVar(string varName, double value);
 
-    void bindVar(string varName, string target);
+    void BindVar(string varName, string target);
 
-    double getVarValue(string varName);
+    double GetVarValue(string varName);
 
-    void setVarValue(string varName, double value);
+    void SetVarValue(string varName, double value);
 
-    bool doesVarExist(string varName);
+    bool DoesVarExist(string varName);
 
-    void setIndices(string path, double index);
+    void SetIndices(string path, double index);
 
     void ThreadStarted(ThreadId id) { isThreadDone[id] = false; }
 
     void ThreadFinished(ThreadId id) { isThreadDone[id] = true; }
 
-    bool isThreadFinished(ThreadId id) { return isThreadDone[id]; }
+    bool IsThreadFinished(ThreadId id) { return isThreadDone[id]; }
 
     void ConnectedToServer() { isConnected = true; }
 

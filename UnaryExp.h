@@ -44,7 +44,7 @@ public:
     Var(string varName, VariableManager *manager) : var(varName),
                                                     manager(manager){}
 
-    double Calculate() { return manager->getVarValue(var); }
+    double Calculate() { return manager->GetVarValue(var); }
 
     ~Var() {};
 };

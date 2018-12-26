@@ -74,7 +74,7 @@ private:
 public:
     UpdateVarCmd(VariableManager *manager, const string &varName, IExpression *exp) : manager(manager),
                     varName(varName), exp(exp) {}
-    void DoCommand() { manager->setVarValue(varName, exp->Calculate()); }
+    void DoCommand() { manager->SetVarValue(varName, exp->Calculate()); }
     virtual ~UpdateVarCmd() { delete exp; }
 };
 #endif //PROJ1_ICOMMAND_H

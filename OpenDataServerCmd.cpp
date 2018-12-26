@@ -9,6 +9,7 @@
 void* OpenDataServerCmd::OpenServer(void* input) {
     DataReader dataReader;
     dataReader.OpenDataServer(input);
+    delete (Input*)input;
     return nullptr;
 }
 

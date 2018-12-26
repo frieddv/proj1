@@ -32,74 +32,74 @@ void setInputSymbols(string line, VariableManager *variableManager) {
     for (int i = 0; i < NUM_OF_ARGS; ++i) { //max args = 23
         switch (i) {
             case 0:
-                variableManager->setIndices("instrumentation/airspeed-indicator/indicated-speed-kt", lineArgs.at(0));
+                variableManager->SetIndices("instrumentation/airspeed-indicator/indicated-speed-kt", lineArgs.at(0));
                 break;
             case 1:
-                variableManager->setIndices("instrumentation/altimeter/indicated-altitude-ft", lineArgs.at(1));
+                variableManager->SetIndices("instrumentation/altimeter/indicated-altitude-ft", lineArgs.at(1));
                 break;
             case 2:
-                variableManager->setIndices("instrumentation/altimeter/indicated-altitude-ft", lineArgs.at(2));
+                variableManager->SetIndices("instrumentation/altimeter/indicated-altitude-ft", lineArgs.at(2));
                 break;
             case 3:
-                variableManager->setIndices("instrumentation/attitude-indicator/indicated-pitch-deg", lineArgs.at(3));
+                variableManager->SetIndices("instrumentation/attitude-indicator/indicated-pitch-deg", lineArgs.at(3));
                 break;
             case 4:
-                variableManager->setIndices("instrumentation/attitude-indicator/indicated-roll-deg", lineArgs.at(4));
+                variableManager->SetIndices("instrumentation/attitude-indicator/indicated-roll-deg", lineArgs.at(4));
                 break;
             case 5:
-                variableManager->setIndices("instrumentation/attitude-indicator/internal-pitch-deg", lineArgs.at(5));
+                variableManager->SetIndices("instrumentation/attitude-indicator/internal-pitch-deg", lineArgs.at(5));
                 break;
             case 6:
-                variableManager->setIndices("instrumentation/attitude-indicator/internal-roll-deg", lineArgs.at(6));
+                variableManager->SetIndices("instrumentation/attitude-indicator/internal-roll-deg", lineArgs.at(6));
                 break;
             case 7:
-                variableManager->setIndices("instrumentation/encoder/indicated-altitude-ft", lineArgs.at(7));
+                variableManager->SetIndices("instrumentation/encoder/indicated-altitude-ft", lineArgs.at(7));
                 break;
             case 8:
-                variableManager->setIndices("instrumentation/encoder/pressure-alt-ft", lineArgs.at(8));
+                variableManager->SetIndices("instrumentation/encoder/pressure-alt-ft", lineArgs.at(8));
                 break;
             case 9:
-                variableManager->setIndices("instrumentation/gps/indicated-altitude-ft", lineArgs.at(9));
+                variableManager->SetIndices("instrumentation/gps/indicated-altitude-ft", lineArgs.at(9));
                 break;
             case 10:
-                variableManager->setIndices("instrumentation/gps/indicated-ground-speed-kt", lineArgs.at(10));
+                variableManager->SetIndices("instrumentation/gps/indicated-ground-speed-kt", lineArgs.at(10));
                 break;
             case 11:
-                variableManager->setIndices("instrumentation/gps/indicated-vertical-speed", lineArgs.at(11));
+                variableManager->SetIndices("instrumentation/gps/indicated-vertical-speed", lineArgs.at(11));
                 break;
             case 12:
-                variableManager->setIndices("instrumentation/heading-indicator/indicated-heading-deg", lineArgs.at(12));
+                variableManager->SetIndices("instrumentation/heading-indicator/indicated-heading-deg", lineArgs.at(12));
                 break;
             case 13:
-                variableManager->setIndices("instrumentation/magnetic-compass/indicated-heading-deg", lineArgs.at(13));
+                variableManager->SetIndices("instrumentation/magnetic-compass/indicated-heading-deg", lineArgs.at(13));
                 break;
             case 14:
-                variableManager->setIndices("instrumentation/slip-skid-ball/indicated-slip-skid", lineArgs.at(14));
+                variableManager->SetIndices("instrumentation/slip-skid-ball/indicated-slip-skid", lineArgs.at(14));
                 break;
             case 15:
-                variableManager->setIndices("instrumentation/turn-indicator/indicated-turn-rate", lineArgs.at(15));
+                variableManager->SetIndices("instrumentation/turn-indicator/indicated-turn-rate", lineArgs.at(15));
                 break;
             case 16:
-                variableManager->setIndices("instrumentation/vertical-speed-indicator/indicated-speed-fpm",
+                variableManager->SetIndices("instrumentation/vertical-speed-indicator/indicated-speed-fpm",
                                             lineArgs.at(16));
                 break;
             case 17:
-                variableManager->setIndices("controls/flight/aileron", lineArgs.at(17));
+                variableManager->SetIndices("controls/flight/aileron", lineArgs.at(17));
                 break;
             case 18:
-                variableManager->setIndices("controls/flight/elevator", lineArgs.at(18));
+                variableManager->SetIndices("controls/flight/elevator", lineArgs.at(18));
                 break;
             case 19:
-                variableManager->setIndices("controls/flight/rudder", lineArgs.at(19));
+                variableManager->SetIndices("controls/flight/rudder", lineArgs.at(19));
                 break;
             case 20:
-                variableManager->setIndices("controls/flight/flaps", lineArgs.at(20));
+                variableManager->SetIndices("controls/flight/flaps", lineArgs.at(20));
                 break;
             case 21:
-                variableManager->setIndices("controls/engines/engine/throttle", lineArgs.at(21));
+                variableManager->SetIndices("controls/engines/engine/throttle", lineArgs.at(21));
                 break;
             case 22:
-                variableManager->setIndices("engines/engine/rpm", lineArgs.at(22));
+                variableManager->SetIndices("engines/engine/rpm", lineArgs.at(22));
                 break;
             default:
                 break;
@@ -164,7 +164,7 @@ void* DataReader::OpenDataServer(void *arg) {
 
     string dataStr;
 
-    while (!params->variableManager->isThreadFinished(MAIN)) {
+    while (!params->variableManager->IsThreadFinished(MAIN)) {
         char buf[1024];
         int numBytesRead = recv(newsockfd, buf, sizeof(buf), 0);
 

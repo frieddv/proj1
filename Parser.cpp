@@ -12,6 +12,7 @@ vector<ICommand*> Parser::Parse(queue<string> tokens) {
             commands.push_back(CreateContainerCmd(tokens, id));
         else
             commands.push_back(CreateCommand(tokens, id));
+        TrimLeadingEndline(tokens);
     }
     return commands;
 }
@@ -25,15 +26,13 @@ Commands Parser::GetCommandId(queue<string> &tokens) {
 
 ICommand* Parser::CreateCommand(queue<string> &tokens, Commands id) {
     string varName;
-    queue<string> expression;
+    IExpression *expression;
     switch(id) {
         case SET_VAR:
             varName = ExtractToken(tokens);
             if (ExtractToken(tokens) != "=")
                 perror(SYNTAX_ERROR);
-            while (IsWithinExpression(tokens))
-                expression.push(ExtractToken(tokens));
-            //IExpression *ex = ShuntingYard(expression);
+            expression = ExtractExpression(tokens);
             //return new UpdateVarCmd(...);
             break;
         case OPEN_DATA_SERVER:
@@ -43,7 +42,6 @@ ICommand* Parser::CreateCommand(queue<string> &tokens, Commands id) {
         case PRINT:
             if (IsString(tokens.front())) {
                 string toPrint = ExtractToken(tokens);
-                ConfirmLineEnd(tokens);
                 return new PrintStrCmd(toPrint);
             }
             else {
@@ -51,31 +49,50 @@ ICommand* Parser::CreateCommand(queue<string> &tokens, Commands id) {
             }
             break;
         case SLEEP:
-            while (IsWithinExpression(tokens))
-                expression.push(ExtractToken(tokens));
-            //IExpression *ex = ShuntingYard(expression);
-            //return new SleepCmd(ex);
-            break;
+            return new SleepCmd(ExtractExpression(tokens));
         case DEFINE_VAR:
             varName = ExtractToken(tokens);
-            break;
+            if (ExtractToken(tokens) != "=")
+                perror(SYNTAX_ERROR);
+            if (tokens.front() != "bind")
+                return new DefineVarCmd(manager, varName, ExtractExpression(tokens));
+            else {
+                tokens.pop();
+                return new DefineVarCmd(manager, varName, ExtractToken(tokens));
+            }
         default:
             perror("something went wrong with Parser::Parse!");
     }
 }
 
+IExpression* Parser::ExtractExpression(queue<string> &tokens) {
+    queue<string> rawExpression;
+    while(IsWithinExpression(tokens))
+        rawExpression.push(ExtractToken(tokens));
+    return ShuntingYard(rawExpression);
+}
+
 bool Parser::IsString(string token) const { return token[0] == '\"'; }
 
-void Parser::ConfirmLineEnd(queue<string> &tokens) {
-    if (tokens.front() != "\n")
-        perror(SYNTAX_ERROR);
-    else
+void Parser::TrimLeadingEndline(queue<string> &tokens) {
+    if (!(tokens.front() != "\n"))
         tokens.pop();
 }
 
-bool Parser::IsWithinExpression(queue<string> &tokens) {
-    string currentToken = tokens.front();
-    return ((currentToken != "\n") && (currentToken != "{") && (currentToken != "}"));
+bool Parser::IsWithinExpression(queue<string> tokens) {
+    string nextToken = tokens.front();
+    return ((nextToken != "\n") && (nextToken != "{") && (nextToken != "}"));
+}
+
+bool Parser::IsWithinFirstExp(string previousToken, queue<string> tokens) {
+    if (!IsWithinExpression(tokens))
+        return false;
+    string nextToken = tokens.front();
+    if ((previousToken == "(") || (nextToken == ")"))
+        return true;
+    if ((WhatSign(previousToken) != INVALID) || (WhatSign(nextToken) != INVALID))
+        return true;
+    return false;
 }
 
 string Parser::ExtractToken(queue<string> &tokens) {

@@ -12,7 +12,7 @@
 #define SYNTAX_ERROR "Syntax Error"
 
 enum Commands { SET_VAR, OPEN_DATA_SERVER, CONNECT, PRINT, WHILE, IF, SLEEP, DEFINE_VAR };
-enum SignOp {AND, OR, BIGGER, SMALLER, EQUAL, NOT_EQUAL, BIG_EQUAL, SMALL_EQUAL, PLUS, MINUS, NEG, MULT, DIV};
+enum SignOp {AND, OR, BIGGER, SMALLER, EQUAL, NOT_EQUAL, BIG_EQUAL, SMALL_EQUAL, PLUS, MINUS, NEG, MULT, DIV, INVALID};
 
 class Parser {
 private:
@@ -28,16 +28,18 @@ private:
     IExpression* ApplyOp(string op, IExpression *left, IExpression *right);
     string ExtractStrFromStack(stack<string> stack);
     IExpression* ExtractExpFromStack(stack<IExpression*> stack);
-    void ShuntingYard(queue<string> tokens);
+    IExpression* ShuntingYard(queue<string> &tokens);
     bool IsContainer(Commands id);
     Commands GetCommandId(queue<string> &tokens);
-    bool IsWithinExpression(queue<string> &tokens);
+    bool IsWithinExpression(queue<string> tokens);
+    bool IsWithinFirstExp(string previousToken, queue<string> tokens);
+    IExpression* ExtractExpression(queue<string> &tokens);
 
 public:
     Parser(VariableManager *manager) : manager(manager) {}
     vector<ICommand*> Parse(queue<string> tokens);
 
-    void ConfirmLineEnd(queue<string> &tokens);
+    void TrimLeadingEndline(queue<string> &tokens);
 
     bool IsString(string token) const;
 };

@@ -42,7 +42,8 @@ private:
     IExpression *exp;
 public:
     SleepCmd(IExpression *exp) : exp(exp) {}
-    void DoCommand() {this_thread::sleep_for(chrono::milliseconds((int) exp->Calculate()));}
+    void DoCommand() { this_thread::sleep_for(chrono::milliseconds((int)exp->Calculate())); }
+    virtual ~SleepCmd() { delete exp; }
 };
 
 class DefineVarCmd : public ICommand {
@@ -58,5 +59,9 @@ public:
     DefineVarCmd(VariableManager *manager, const string &varName, IExpression *exp) : manager(manager),
                     varName(varName), exp(exp) {}
     void DoCommand();
+    virtual ~DefineVarCmd() {
+        if (exp != nullptr)
+            delete exp;
+    }
 };
 #endif //PROJ1_ICOMMAND_H

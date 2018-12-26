@@ -27,18 +27,21 @@ class Addition : public BinaryExp {
 public:
     Addition(IExpression *a, IExpression *b) : BinaryExp(a, b) {}
     double Calculate() { return left->Calculate() + right->Calculate();}
+    virtual ~Addition(){}
 };
 
 class Subtraction : public BinaryExp {
 public:
     Subtraction(IExpression *a, IExpression *b) : BinaryExp(a, b) {}
     double Calculate() { return left->Calculate() - right->Calculate();}
+    virtual ~Subtraction() {}
 };
 
 class Multiplication : public BinaryExp {
 public:
     Multiplication(IExpression *a, IExpression *b) : BinaryExp(a, b) {}
     double Calculate() { return left->Calculate() * right->Calculate();}
+    virtual ~Multiplication() {}
 };
 
 class Division : public BinaryExp {
@@ -50,5 +53,6 @@ public:
         }
         return left->Calculate() / right->Calculate();
     }
+    virtual ~Division() {}
 };
 #endif //PROJ1_BINARYEXP_H

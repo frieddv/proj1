@@ -14,7 +14,6 @@ class UnaryExp : public IExpression {
 public:
     virtual double Calculate() = 0;
 
-    virtual ~UnaryExp() = 0;
 };
 
 class Negation : public UnaryExp {
@@ -24,7 +23,7 @@ public:
     Negation(IExpression *innerExp) : innerExp(innerExp) {}
     double Calculate() { return (-1 * innerExp->Calculate());}
 
-    virtual ~Negation() { delete innerExp;}
+    ~Negation() { delete innerExp;}
 };
 
 class Number : public UnaryExp {
@@ -34,7 +33,7 @@ public:
     Number(double value) : value(value) {}
     double Calculate() { return value;}
 
-    virtual ~Number() {};
+    ~Number() {};
 };
 
 class Var : public UnaryExp{
@@ -47,7 +46,7 @@ public:
 
     double Calculate() { return manager->getVarValue(var); }
 
-    virtual ~Var() {};
+    ~Var() {};
 };
 
 #endif //PROJ1_UNARYEXP_H

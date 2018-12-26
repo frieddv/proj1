@@ -47,11 +47,11 @@ void VariableManager::addLocalVar(string varName, double value) {
 }
 
 void VariableManager::setValueOnServer(string path, double value) {
-implement this!!!
+//implement this!!!
 }
 
 double VariableManager::getValueFromServer(string path) {
-implement this as well!!!
+//implement this as well!!!
 }
 
 void VariableManager::setIndices(string path, double index) {

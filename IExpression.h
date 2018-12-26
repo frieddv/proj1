@@ -11,7 +11,6 @@ class IExpression {
 public:
     virtual double Calculate() = 0;
 
-    virtual ~IExpression() = 0;
 };
 
 

@@ -9,12 +9,16 @@
 
 using namespace std;
 
+enum ThreadId {MAIN, SERVER, CLIENT};
+
 class VariableManager {
 private:
     map<string, double> localVars;
     map<string, string> boundVars;
     map<string, string> varToSource;
     map<string, double > pathsToXml;
+    map<ThreadId, bool> isThreadDone;
+    bool isConnected = false;
 
     void bindToServer(string varName, string path) {boundVars[varName] = path;}
 
@@ -36,6 +40,16 @@ public:
     bool doesVarExist(string varName);
 
     void setIndices(string path, double index);
+
+    void ThreadStarted(ThreadId id) { isThreadDone[id] = false; }
+
+    void ThreadFinished(ThreadId id) { isThreadDone[id] = true; }
+
+    bool isThreadFinished(ThreadId id) { return isThreadDone[id]; }
+
+    void ConnectedToServer() { isConnected = true; }
+
+    bool IsConnected() { return isConnected; }
 };
 
 

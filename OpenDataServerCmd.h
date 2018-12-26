@@ -8,6 +8,7 @@
 
 #include "ICommand.h"
 #include <vector>
+#include <pthread.h>
 
 struct Input {
     int portNum;
@@ -24,7 +25,7 @@ public:
 
     OpenDataServerCmd(VariableManager *variableManager, IExpression *portNo, IExpression *hz);
 
-    static void OpenServer(Input input);
+    static void* OpenServer(void* input);
 
     virtual void DoCommand();
 };

@@ -54,6 +54,6 @@ double VariableManager::getValueFromServer(string path) {
 implement this as well!!!
 }
 
-void VariableManager::setIndices(string path, int index) {
-    pathesToIndices[path] = index;
+void VariableManager::setIndices(string path, double index) {
+    pathsToXml[path] = index;
 }

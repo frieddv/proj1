@@ -14,7 +14,7 @@ private:
     map<string, double> localVars;
     map<string, string> boundVars;
     map<string, string> varToSource;
-    map<string, int> pathesToIndices;
+    map<string, double > pathsToXml;
 
     void bindToServer(string varName, string path) {boundVars[varName] = path;}
 
@@ -35,7 +35,7 @@ public:
 
     bool doesVarExist(string varName);
 
-    void setIndices(string path, int index);
+    void setIndices(string path, double index);
 };
 
 

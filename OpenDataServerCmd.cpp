@@ -20,5 +20,5 @@ void OpenDataServerCmd::DoCommand() {
     input.hz = (int)hz->Calculate();
     input.variableManager = variableManager;
     thread server(OpenServer, input);
-
+    server.detach();
 }

@@ -27,6 +27,9 @@ int main(int argc, char *argv[]) {
         delete command;
     }
 
+    varMgr->ThreadFinished(MAIN);
+    while (!(varMgr->isThreadFinished(SERVER) && varMgr->isThreadFinished(CLIENT)))
+        this_thread::sleep_for(chrono::milliseconds(200));
 
     delete parser;
     delete varMgr;

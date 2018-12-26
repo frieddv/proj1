@@ -5,6 +5,7 @@
 #include "Parser.h"
 #include "OpenDataServerCmd.h"
 #include "ContainerCommand.h"
+#include "ConnectCmd.h"
 
 queue<ICommand*> Parser::Parse(queue<string> tokens) {
     queue<ICommand*> commands;

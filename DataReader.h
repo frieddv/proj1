@@ -10,7 +10,7 @@
 
 class DataReader {
 public:
-    void connectToClient(int portNumber,int hz, VariableManager *variableManager);
+    void* OpenDataServer(void *args);
 };
 
 

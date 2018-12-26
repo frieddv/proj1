@@ -6,6 +6,7 @@
 #define PROJ1_VARIABLEMANAGER_H
 
 #include <map>
+#include <queue>
 
 using namespace std;
 
@@ -16,8 +17,9 @@ private:
     map<string, double> localVars;
     map<string, string> boundVars;
     map<string, string> varToSource;
-    map<string, double > pathsToXml;
-    map<ThreadId, bool> isThreadDone;
+    map<string, double> pathsToXml;
+    queue<pair<string, double>> pendingUpdates;
+    map<ThreadId, bool> isThreadDone = {{MAIN, false}, {SERVER, true}, {CLIENT, true}};
     bool isConnected = false;
 
     void bindToServer(string varName, string path) {boundVars[varName] = path;}
@@ -50,6 +52,10 @@ public:
     void ConnectedToServer() { isConnected = true; }
 
     bool IsConnected() { return isConnected; }
+
+    bool IsUpdatePending() { return !pendingUpdates.empty(); }
+
+    pair<string, double> PopPendingUpdate();
 };
 
 

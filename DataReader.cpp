@@ -18,50 +18,6 @@
 
 using namespace std;
 
-
-void DataReader::connectToClient(int portNumber, int hz, VariableManager *variableManager) {
-//    struct sockaddr_in serverAddress, clientAddress;
-//    int clientSocket = 0;
-//    int n;
-//    mutex mtx;
-//    // Trying to connect.
-//    if ((clientSocket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-//    {
-//        perror("Socket creation error");
-//        exit(1);
-//    }
-//    bzero((char *) &serverAddress, sizeof(serverAddress));
-//    serverAddress.sin_family = AF_INET;
-//    serverAddress.sin_addr.s_addr = INADDR_ANY;
-//    serverAddress.sin_port = htons(portNumber);
-//    /* Now bind the host address using bind() call.*/
-//    if (bind(clientSocket, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0)
-//        perror("Error: binding failed.");
-//
-//    listen(clientSocket, 5);
-//    int clientLength = sizeof(clientAddress);
-//    /* Accept actual connection from the client */
-//    int newsockfd = accept(clientSocket, (struct sockaddr *) &clientAddress, (socklen_t *) &clientLength);
-//
-//    if (newsockfd < 0) {
-//        perror("Error: failed in acception.");
-//        exit(1);
-//    }
-//    char buffer [1000];
-//    char bufferBackUp [1000];
-//    int readingText;
-//
-//    bzero(buffer, 1000);
-//    n = read(newsockfd, buffer, 999); //read line from simulator to socket.
-//
-//    //backup for buffer.
-//    strcpy(bufferBackUp ,buffer);
-//
-//
-
-//
-}
-
 void setInputSymbols(string line, VariableManager *variableManager) {
     vector<double> lineArgs;
     char *copyString;
@@ -152,7 +108,7 @@ void setInputSymbols(string line, VariableManager *variableManager) {
 
 }
 
-void *thread_OpenDataserver(void *arg) {
+void* DataReader::OpenDataServer(void *arg) {
     Input *params = (Input *) arg;
     vector<int> sockets;
 

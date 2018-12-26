@@ -8,8 +8,8 @@
 
 void* OpenDataServerCmd::OpenServer(void* input) {
     DataReader dataReader;
-    Input* input1 = (Input*)input;
-    dataReader.connectToClient(input1->portNum, input1->hz, input1->variableManager);
+    dataReader.OpenDataServer(input);
+    return nullptr;
 }
 
 OpenDataServerCmd::OpenDataServerCmd(VariableManager *variableManager, IExpression *portNo, IExpression *hz)

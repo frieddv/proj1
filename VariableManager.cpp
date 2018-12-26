@@ -47,7 +47,7 @@ void VariableManager::addLocalVar(string varName, double value) {
 }
 
 void VariableManager::setValueOnServer(string path, double value) {
-//implement this!!!
+    pendingUpdates.push(make_pair(path.substr(1, path.length() - 2), value));
 }
 
 double VariableManager::getValueFromServer(string path) {
@@ -56,4 +56,10 @@ double VariableManager::getValueFromServer(string path) {
 
 void VariableManager::setIndices(string path, double index) {
     pathsToXml[path] = index;
+}
+
+pair<string, double> VariableManager::PopPendingUpdate() {
+    pair<string, double> nextUpdate = pendingUpdates.front();
+    pendingUpdates.pop();
+    return nextUpdate;
 }

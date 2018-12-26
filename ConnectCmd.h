@@ -7,8 +7,9 @@
 
 
 #include "ICommand.h"
+#include <vector>
 
-struct Input {
+struct ConnectInput {
     int portNum;
     string IP;
     VariableManager *variableManager;
@@ -22,6 +23,8 @@ protected:
 public:
 
     ConnectCmd(IExpression *port, const string &IP, VariableManager *variableManager);
+
+    static void* ConnectToClient(void* input);
 
     virtual void DoCommand();
 };

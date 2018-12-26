@@ -70,7 +70,7 @@ void *ConnectToClient(void *args) {
         }
     }
     /* Now ask for a message from the user, this message
-       * will be read by server
+    * will be read by server
     */
 
     for (int socket : sockets) {

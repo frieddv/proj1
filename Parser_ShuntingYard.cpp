@@ -14,7 +14,10 @@
 using namespace std;
 
 bool Parser::IsNumber(string token) {
-
+    if (token.at(0) >= '0' && token.at(0) <= '9') {
+        return true;
+    }
+    return false;
 }
 
 
@@ -165,6 +168,9 @@ IExpression* Parser::ShuntingYard(queue<string> &tokens) {
         tokens.pop();
     }
     //finised passing over the Input, now making it into one big exp*
+    if (operators.size() == 0) {
+        return ExtractExpFromStack(values);
+    }
     string temp = ExtractStrFromStack(operators);
     while (values.size() != 1) {
         if (operators.top() == "~") {

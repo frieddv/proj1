@@ -12,7 +12,7 @@ queue<string> Lexer::Lex(istream &buffer) {
         buffer.getline(line, MAX_LINE_LENGTH);
         string temp = line;
         while (!(temp.empty())) {
-            TrimLeadingGarbage(temp);
+            TrimLeadingWhitespace(temp);
             for (const regex &r : templates) {
                 TryExtractLeadingToken(temp, tokens, r);
             }
@@ -42,7 +42,7 @@ void Lexer::ExtractToken(string &line, unsigned long tokenLength,
     line = line.substr(tokenLength);
 }
 
-void Lexer::TrimLeadingGarbage(string &line) {
+void Lexer::TrimLeadingWhitespace(string &line) {
     smatch match;
     if (LineStartsWith(line, match, delimiters))
         line = line.substr((unsigned long)match.length());

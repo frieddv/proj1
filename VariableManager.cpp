@@ -38,7 +38,7 @@ void VariableManager::SetVarValue(string varName, double value) {
 }
 
 bool VariableManager::DoesVarExist(string varName) {
-    return (varToSource.count(varName)) || (boundVars.count(varName));
+    return existingVars.count(varName) > 0;
 }
 
 void VariableManager::AddLocalVar(string varName, double value) {

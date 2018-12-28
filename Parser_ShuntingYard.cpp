@@ -98,13 +98,13 @@ IExpression* Parser::ApplyOp(string op, IExpression *left, IExpression *right) {
     }
 }
 
-string Parser::ExtractStrFromStack(stack<string> stack) {
+string Parser::ExtractStrFromStack(stack<string> &stack) {
     string str = stack.top();
     stack.pop();
     return str;
 }
 
-IExpression *Parser::ExtractExpFromStack(stack<IExpression *> stack) {
+IExpression *Parser::ExtractExpFromStack(stack<IExpression *> &stack) {
     IExpression *exp = stack.top();
     stack.pop();
     return exp;
@@ -124,31 +124,32 @@ IExpression* Parser::ShuntingYard(queue<string> &tokens) {
             values.push(exp);
             flag = 0;
         } else if (manager->DoesVarExist(tokens.front())) {
-            //todo : fix how to see if its already in maps, means  - is it fine to add pointers to maps in this class
             IExpression *exp = new Var(tokens.front(), manager);
             values.push(exp);
             flag = 0;
         } else if (tokens.front() == ")") {
-            string temp = ExtractStrFromStack(operators);
             while (!operators.empty() && operators.top() != "(") {
                 if (operators.top() == "~") {
-                    IExpression *right = new Negation(ExtractExpFromStack(values));
-                    values.push(right);
-                    ExtractStrFromStack(operators);
+                    values.push(new Negation(ExtractExpFromStack(values)));
+                    operators.pop();
                     continue;
                 }
-                if (GetPrecedence(temp) < GetPrecedence(operators.top())) {
+                string temp = ExtractStrFromStack(operators);
+                while (!operators.empty() && (operators.top() == "~")) {
+                    values.push(new Negation(ExtractExpFromStack(values)));
+                    operators.pop();
+                }
+                while (!operators.empty() && (operators.top() != "(") &&
+                            (GetPrecedence(temp) < GetPrecedence(operators.top()))) {
                     IExpression *right = ExtractExpFromStack(values);
                     IExpression *left = ExtractExpFromStack(values);
                     IExpression *combined = ApplyOp(ExtractStrFromStack(operators), left, right);
                     values.push(combined);
-                } else {
-                    IExpression *right = ExtractExpFromStack(values);
-                    IExpression *left = ExtractExpFromStack(values);
-                    IExpression *combined = ApplyOp(temp, left, right);
-                    values.push(combined);
-                    temp = ExtractStrFromStack(operators);
                 }
+                IExpression *right = ExtractExpFromStack(values);
+                IExpression *left = ExtractExpFromStack(values);
+                IExpression *combined = ApplyOp(temp, left, right);
+                values.push(combined);
             }
             if (operators.top() == "(") {
                 ExtractStrFromStack(operators);
@@ -168,29 +169,28 @@ IExpression* Parser::ShuntingYard(queue<string> &tokens) {
         tokens.pop();
     }
     //finised passing over the Input, now making it into one big exp*
-    if (operators.size() == 0) {
-        return ExtractExpFromStack(values);
-    }
-    string temp = ExtractStrFromStack(operators);
-    while (values.size() != 1) {
+    while (!operators.empty()) {
         if (operators.top() == "~") {
-            IExpression *right = new Negation(ExtractExpFromStack(values));
-            values.push(right);
-            ExtractStrFromStack(operators);
+            values.push(new Negation(ExtractExpFromStack(values)));
+            operators.pop();
             continue;
         }
-        if (GetPrecedence(temp) < GetPrecedence(operators.top())) {
+        string temp = ExtractStrFromStack(operators);
+        while (!operators.empty() && (operators.top() == "~")) {
+            values.push(new Negation(ExtractExpFromStack(values)));
+            operators.pop();
+        }
+        while (!operators.empty() && (GetPrecedence(temp) < GetPrecedence(operators.top()))) {
             IExpression *right = ExtractExpFromStack(values);
             IExpression *left = ExtractExpFromStack(values);
             IExpression *combined = ApplyOp(ExtractStrFromStack(operators), left, right);
             values.push(combined);
-        } else {
-            IExpression *right = ExtractExpFromStack(values);
-            IExpression *left = ExtractExpFromStack(values);
-            IExpression *combined = ApplyOp(temp, left, right);
-            values.push(combined);
-            temp = ExtractStrFromStack(operators);
         }
+
+        IExpression *right = ExtractExpFromStack(values);
+        IExpression *left = ExtractExpFromStack(values);
+        IExpression *combined = ApplyOp(temp, left, right);
+        values.push(combined);
     }
     return ExtractExpFromStack(values);
 }

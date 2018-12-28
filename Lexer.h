@@ -13,8 +13,8 @@
 #define IP_PAT "(([1-9]?[0-9]|1[0-9][0-9]|2[0-4][0-9]|[25[0-5])\\.){3}([1-9]?[0-9]|1[0-9][0-9]|2[0-4][0-9]|[25[0-5])"
 #define STRING "\"[^\"]+\""
 #define DUAL_OPERATOR "(!=)|(==)|(<=)|(>=)"
-#define SINGLE_OPERATOR "[=\\-*/()=={}<>]"
-#define DELIMITERS "[\\s,]+"
+#define SINGLE_OPERATOR "[=\\-*/()=={}<>,]"
+#define DELIMITERS "[\\s]+"
 #define MAX_LINE_LENGTH 1024
 #define NEWLINE "\n"
 
@@ -34,7 +34,7 @@ private:
 
     void ExtractToken(string &line, unsigned long tokenLength,
                       queue<string> &tokens);
-    void TrimLeadingGarbage(string &line);
+    void TrimLeadingWhitespace(string &line);
 
     bool LineStartsWith(const string &line, smatch &match,
                         const regex &tokenTemplate) const;

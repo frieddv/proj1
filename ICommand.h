@@ -55,10 +55,10 @@ private:
     IExpression *exp;
 public:
     DefineVarCmd(VariableManager *manager, const string &varName, const string &bindTarget) : manager(manager),
-                    varName(varName), bindTarget(bindTarget), exp(nullptr) {}
+                    varName(varName), bindTarget(bindTarget), exp(nullptr) { manager->AcknowledgeVar(varName); }
 
     DefineVarCmd(VariableManager *manager, const string &varName, IExpression *exp) : manager(manager),
-                    varName(varName), exp(exp) {}
+                    varName(varName), exp(exp) { manager->AcknowledgeVar(varName); }
     void DoCommand();
     virtual ~DefineVarCmd() {
         if (exp != nullptr)

@@ -45,7 +45,7 @@ ICommand* Parser::CreateContainerCmd(queue<string> &tokens, Commands id) {
     }
     while (tokens.front() != "}") {
         Commands innerId = GetCommandId(tokens);
-        if (IsContainer(id))
+        if (IsContainer(innerId))
             container->AddCommand(CreateContainerCmd(tokens, innerId));
         else
             container->AddCommand(CreateCommand(tokens, innerId));
@@ -66,11 +66,15 @@ ICommand* Parser::CreateCommand(queue<string> &tokens, Commands id) {
         }
         case OPEN_DATA_SERVER: {
             IExpression *port = ExtractExpression(tokens);
+            if (tokens.front() == ",")
+                tokens.pop();
             IExpression *hz = ExtractExpression(tokens);
             return new OpenDataServerCmd(manager, port, hz);
         }
         case CONNECT: {
             string ip = ExtractToken(tokens);
+            if (tokens.front() == ",")
+                tokens.pop();
             IExpression *port = ExtractExpression(tokens);
             return new ConnectCmd(port, ip, manager);
         }
@@ -118,6 +122,10 @@ void Parser::TrimEndline(queue<string> &tokens) {
 
 bool Parser::IsWithinExpression(string previousToken, queue<string> tokens) {
     string nextToken = tokens.front();
+    if (nextToken == ",") {
+        tokens.pop();
+        return false;
+    }
     if ((nextToken == "\n") || (nextToken == "{") || (nextToken == "}"))
         return false;
     if ((previousToken == "(") || (nextToken == ")"))

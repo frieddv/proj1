@@ -27,8 +27,8 @@ private:
     SignOp WhatSign(string sign);
     int GetPrecedence(string op);
     IExpression* ApplyOp(string op, IExpression *left, IExpression *right);
-    string ExtractStrFromStack(stack<string> stack);
-    IExpression* ExtractExpFromStack(stack<IExpression*> stack);
+    string ExtractStrFromStack(stack<string> &stack);
+    IExpression* ExtractExpFromStack(stack<IExpression*> &stack);
     IExpression* ShuntingYard(queue<string> &tokens);
     bool IsContainer(Commands id);
     Commands GetCommandId(queue<string> &tokens);

@@ -7,6 +7,7 @@
 
 #include <map>
 #include <queue>
+#include <set>
 
 using namespace std;
 
@@ -18,6 +19,7 @@ private:
     map<string, string> boundVars;
     map<string, string> varToSource;
     map<string, double> pathsToXml;
+    set<string> existingVars;
     queue<pair<string, double>> pendingUpdates;
     map<ThreadId, bool> isThreadDone = {{MAIN, false}, {SERVER, true}, {CLIENT, true}};
     bool isConnected = false;
@@ -54,6 +56,8 @@ public:
     bool IsConnected() { return isConnected; }
 
     bool IsUpdatePending() { return !pendingUpdates.empty(); }
+
+    void AcknowledgeVar(string varName) { existingVars.insert(varName); }
 
     pair<string, double> PopPendingUpdate();
 };

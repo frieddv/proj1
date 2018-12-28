@@ -11,17 +11,30 @@
 class ContainerCommand : public ICommand {
 protected:
     IExpression *expression;
-    list<ICommand*> commands;
+    queue<ICommand*> commands;
 
     void DoAllCommands() {
-        for (ICommand *c : commands) {
+        queue<ICommand*> copy(commands);
+        while (!copy.empty()) {
+            ICommand *c = copy.front();
+            copy.pop();
             c->DoCommand();
         }
     }
 public:
     ContainerCommand(IExpression *expression) : expression(expression){}
-    void AddCommand(ICommand *command) {commands.push_back(command);}
+
+    void AddCommand(ICommand *command) {commands.push(command);}
+
     virtual void DoCommand() = 0;
+
+    virtual ~ContainerCommand() {
+        while (!commands.empty()) {
+            ICommand *c = commands.front();
+            commands.pop();
+            delete c;
+        }
+    }
 };
 
 class LoopCommand : public ContainerCommand {

@@ -135,10 +135,6 @@ IExpression* Parser::ShuntingYard(queue<string> &tokens) {
                     continue;
                 }
                 string temp = ExtractStrFromStack(operators);
-                while (!operators.empty() && (operators.top() == "~")) {
-                    values.push(new Negation(ExtractExpFromStack(values)));
-                    operators.pop();
-                }
                 while (!operators.empty() && (operators.top() != "(") &&
                             (GetPrecedence(temp) < GetPrecedence(operators.top()))) {
                     IExpression *right = ExtractExpFromStack(values);
@@ -176,10 +172,6 @@ IExpression* Parser::ShuntingYard(queue<string> &tokens) {
             continue;
         }
         string temp = ExtractStrFromStack(operators);
-        while (!operators.empty() && (operators.top() == "~")) {
-            values.push(new Negation(ExtractExpFromStack(values)));
-            operators.pop();
-        }
         while (!operators.empty() && (GetPrecedence(temp) < GetPrecedence(operators.top()))) {
             IExpression *right = ExtractExpFromStack(values);
             IExpression *left = ExtractExpFromStack(values);
